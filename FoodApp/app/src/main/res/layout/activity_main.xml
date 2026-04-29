@@ -28,7 +28,7 @@
                     android:id="@+id/textView3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Welcom"
+                    android:text="Welcome"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,7 @@
                     android:id="@+id/textView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Hà Gia Bảo"
+                    android:text="Bùi Bá Bổng"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -70,19 +70,17 @@
                     app:srcCompat="@drawable/settings" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
                     android:layout_weight="1"
                     android:background="@drawable/grey_background"
                     android:orientation="horizontal">
 
-                    <EditText
+                        <EditText
                         android:id="@+id/editTextText"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_margin="4dp"
                         android:layout_weight="1"
-                        android:ems="10"
                         android:hint="Search Food..."
                         android:inputType="text"
                         android:padding="8dp"
@@ -112,7 +110,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
@@ -120,7 +118,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="48dp"
                     android:layout_weight="0.3333"
                     android:layout_marginEnd="8dp"
                     android:background="@drawable/grey_background"
@@ -131,11 +129,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="8dp"
-                        tools:src="@drawable/location" />
+                        android:src="@drawable/location" />
 
                     <Spinner
                         android:id="@+id/locationSp"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="4dp"
                         android:layout_weight="1"
@@ -156,11 +154,11 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="8dp"
-                        tools:src="@drawable/time" />
+                        android:src="@drawable/time" />
 
                     <Spinner
                         android:id="@+id/timeSp"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="4dp"
                         android:layout_weight="1"
@@ -169,7 +167,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="40dp"
+                    android:layout_height="48dp"
                     android:layout_weight="0.3333"
                     android:layout_marginStart="8dp"
                     android:background="@drawable/grey_background"
@@ -181,12 +179,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="8dp"
-                        tools:src="@drawable/dollar" />
+                        android:src="@drawable/dollar" />
 
                     <Spinner
                         android:id="@+id/priceSp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
                         android:layout_marginStart="4dp"
                         android:layout_weight="1"
                         android:background="@null" />
@@ -232,6 +230,9 @@
                     android:id="@+id/bestFoodView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minHeight="300dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
