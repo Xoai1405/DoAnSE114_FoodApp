@@ -1,5 +1,6 @@
 package com.example.myfoodapp.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.ActivityMainBinding;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +54,26 @@ public class MainActivity extends BaseActivity {
         initPrice();
         initBestFood();
         initCategory();
+        setVariable();
+    }
+
+    private void setVariable() {
+        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            }
+        });
+        binding.searchBtn.setOnClickListener(v -> {
+            String text =binding.searchEdit.getText().toString();
+            if(!text.isEmpty()){
+                Intent intent=new Intent(MainActivity.this,ListFoodsActivity.class);
+                intent.putExtra("text",text);
+                intent.putExtra("isSearch",true);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initBestFood() {

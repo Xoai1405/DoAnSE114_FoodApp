@@ -1,6 +1,8 @@
 package Domain;
 
-public class Foods {
+import java.io.Serializable;
+
+public class Foods implements Serializable {
     private int CategoryID;
     private boolean BestFood;
     private int ID;

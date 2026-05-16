@@ -1,6 +1,7 @@
 package Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myfoodapp.Activity.ListFoodsActivity;
 import com.example.myfoodapp.R;
 
 import java.io.IOException;
@@ -76,7 +78,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         Drawable res = ContextCompat.getDrawable(context, drawableResourceId);
         holder.pic.setImageDrawable(res);
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ListFoodsActivity.class);
+                intent.putExtra("CategoryId",items.get(position).getId());
+                intent.putExtra("CategoryName",items.get(position).getName());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

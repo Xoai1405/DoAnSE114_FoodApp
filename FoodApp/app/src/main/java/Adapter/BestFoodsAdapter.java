@@ -1,6 +1,7 @@
 package Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myfoodapp.Activity.DetailActivity;
 import com.example.myfoodapp.R;
 
 import java.io.IOException;
@@ -53,6 +56,12 @@ public class BestFoodsAdapter extends RecyclerView.Adapter<BestFoodsAdapter.View
             e.printStackTrace();
             holder.pic.setImageResource(R.drawable.logo); // ảnh mặc định nếu lỗi
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent= new Intent(context, DetailActivity.class);
+            intent.putExtra("object", items.get(position));
+            context.startActivity(intent);
+        });
     }
 
     @Override
