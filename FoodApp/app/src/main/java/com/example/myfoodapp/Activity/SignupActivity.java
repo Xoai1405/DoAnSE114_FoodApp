@@ -34,8 +34,7 @@ ActivitySignupBinding binding;
 
     private void setVariable() {
         binding.signupBtn.setOnClickListener(new View.OnClickListener() {
-            String email = binding.userEdt.getText().toString();
-            String password = binding.passEdt.getText().toString();
+
             @Override
                     public void onClick(View v) {
                         String email = binding.userEdt.getText().toString();
@@ -46,7 +45,7 @@ ActivitySignupBinding binding;
                             return;
                         }
                         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignupActivity.this,task-> {
-                                if(task.isComplete()) {
+                                if(task.isSuccessful()) {
                                     Log.i(TAG, "onComplete: ");
                                     startActivity(new Intent(SignupActivity.this, MainActivity.class));
                                 } else {
