@@ -2,17 +2,13 @@ package com.example.myfoodapp.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
-import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.ActivityLoginBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,30 +20,66 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends BaseActivity {
-ActivityLoginBinding binding;
+
+    ActivityLoginBinding binding;
     private GoogleSignInClient mGoogleSignInClient;
-    private static final int RC_SIGN_IN = 9001;
+
+    // Khai báo ở cấp class, NGOÀI onCreate
+    private final ActivityResultLauncher<Intent> googleSignInLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                try {
+                    GoogleSignInAccount account = task.getResult(ApiException.class);
+                    firebaseAuthWithGoogle(account.getIdToken());
+                } catch (ApiException e) {
+                    Toast.makeText(this, "Đăng nhập Google thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setVariable();
-
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("695202611713-2h3ktv9h67p75dqmdk6586a7pfbt18bb.apps.googleusercontent.com")                .requestEmail()
+                .requestIdToken(getString(com.example.myfoodapp.R.string.default_web_client_id))
+                .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-// Tìm nút Google (cái nút G+ trong ảnh của bạn) và set sự kiện
-        ImageView googleBtn = findViewById(R.id.googleBtn); // Thay đúng ID của bạn
-        googleBtn.setOnClickListener(v -> signInWithGoogle());
-
-
+        setVariable();
     }
 
     private void setVariable() {
+        binding.loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = binding.userEdt.getText().toString().trim();
+                String password = binding.passEdt.getText().toString();
+
+                if (email.isEmpty() || password.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Vui lòng nhập email và mật khẩu", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(LoginActivity.this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, task -> {
+                    if (task.isSuccessful()) {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại. Kiểm tra lại email hoặc mật khẩu.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        binding.googleBtn.setOnClickListener(v -> signInWithGoogle());
+
         binding.forgotPasswordTv.setOnClickListener(v ->
                 startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
         );
@@ -56,54 +88,21 @@ ActivityLoginBinding binding;
             startActivity(new Intent(LoginActivity.this, SignupActivity.class));
             finish();
         });
-        binding.loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = binding.userEdt.getText().toString();
-                String password = binding.passEdt.getText().toString();
-                if(!email.isEmpty()&&!password.isEmpty()) {
-                    mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, task -> {
-                        if(task.isSuccessful()) {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
-                        }
-                        else {
-                            Toast.makeText(LoginActivity.this, "Autentication failed", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }else {
-                    Toast.makeText(LoginActivity.this, "Please fill username and password", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
     }
 
     private void signInWithGoogle() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, RC_SIGN_IN);
+        googleSignInLauncher.launch(mGoogleSignInClient.getSignInIntent());
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account.getIdToken());
-            } catch (ApiException e) {
-                // Xử lý lỗi ở đây
-            }
-        }
-    }
     private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        // Đăng nhập thành công, chuyển sang MainActivity
                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         finish();
+                    } else {
+                        Toast.makeText(this, "Xác thực Google thất bại", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
