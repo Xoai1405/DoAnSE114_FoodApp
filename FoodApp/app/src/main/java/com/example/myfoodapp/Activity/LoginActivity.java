@@ -48,6 +48,14 @@ ActivityLoginBinding binding;
     }
 
     private void setVariable() {
+        binding.forgotPasswordTv.setOnClickListener(v ->
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class))
+        );
+
+        binding.signupTv.setOnClickListener(v -> {
+            startActivity(new Intent(LoginActivity.this, SignupActivity.class));
+            finish();
+        });
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +65,7 @@ ActivityLoginBinding binding;
                     mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, task -> {
                         if(task.isSuccessful()) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
                         }
                         else {
                             Toast.makeText(LoginActivity.this, "Autentication failed", Toast.LENGTH_SHORT).show();

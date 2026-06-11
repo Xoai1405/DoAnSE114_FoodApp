@@ -24,6 +24,10 @@ public class SignupActivity extends BaseActivity {
     }
 
     private void setVariable() {
+        binding.loginTv.setOnClickListener(v -> {
+            startActivity(new Intent(SignupActivity.this, LoginActivity.class));
+            finish();
+        });
         binding.signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,6 +56,7 @@ public class SignupActivity extends BaseActivity {
                     if (task.isComplete()) {
                         Log.i(TAG, "onComplete: ");
                         startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                        finish();
                     } else {
                         Log.i(TAG, "fairlure: " + task.getException());
                         Toast.makeText(SignupActivity.this, "Authentication failed: " + task.getException(), Toast.LENGTH_SHORT).show();

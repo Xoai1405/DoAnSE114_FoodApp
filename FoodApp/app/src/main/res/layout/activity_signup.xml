@@ -107,14 +107,28 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textView8"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="Are you a member? Login"
-                android:textAlignment="center"
-                android:textSize="16sp" />
+                android:layout_marginBottom="32dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Are you a member? "
+                    android:textColor="@color/blue_grey"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/loginTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Login"
+                    android:textColor="@color/red"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
 
         </LinearLayout>
