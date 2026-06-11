@@ -18,7 +18,6 @@ import com.example.myfoodapp.databinding.ActivitySignupBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.database.core.Tag;
 
 public class SignupActivity extends BaseActivity {
 ActivitySignupBinding binding;
