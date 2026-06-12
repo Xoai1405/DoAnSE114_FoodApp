@@ -2,16 +2,14 @@ package com.example.myfoodapp.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
-import com.google.firebase.database.core.Tag;
 
 
 import com.example.myfoodapp.databinding.ActivitySignupBinding;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+
 
 public class SignupActivity extends BaseActivity {
 
@@ -55,14 +53,14 @@ public class SignupActivity extends BaseActivity {
                 }
 
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignupActivity.this, task -> {
-                    if (task.isComplete()) {
-                        Log.i(TAG, "onComplete: ");
+                    if (task.isSuccessful()) {
+
                         startActivity(new Intent(SignupActivity.this, MainActivity.class));
                         finish();
                     } else {
-                        Log.i(TAG, "fairlure: " + task.getException());
-                        Toast.makeText(SignupActivity.this, "Authentication failed: " + task.getException(), Toast.LENGTH_SHORT).show();
-                    }
+
+                        String err = task.getException() != null ? task.getException().getMessage() : "unknown";
+                        Toast.makeText(SignupActivity.this, err, Toast.LENGTH_LONG).show();                    }
                 });
             }
         });

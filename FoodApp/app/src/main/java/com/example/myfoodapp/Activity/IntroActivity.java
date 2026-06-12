@@ -22,6 +22,7 @@ public class IntroActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         if (mAuth.getCurrentUser() != null) {
             startActivity(new Intent(IntroActivity.this, MainActivity.class));
+            finish();
             return;
         }
         binding = ActivityIntroBinding.inflate(getLayoutInflater());

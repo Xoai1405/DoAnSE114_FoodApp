@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "695202611713",
+    "firebase_url": "https://doan-se114-default-rtdb.firebaseio.com",
     "project_id": "doan-se114",
     "storage_bucket": "doan-se114.firebasestorage.app"
   },
@@ -28,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAimEVl0pssgYcJbBoZfHhlPIu--CHiuV8"
+          "current_key": "AIzaSyAtL_CZsMPkFGfcyJYC475D6vExFiEIqZ4"
         }
       ],
       "services": {
