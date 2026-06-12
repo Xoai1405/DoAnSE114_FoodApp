@@ -6,6 +6,8 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
+import com.google.firebase.database.core.Tag;
+
 
 import com.example.myfoodapp.databinding.ActivitySignupBinding;
 import com.google.android.gms.tasks.Task;

@@ -24,7 +24,6 @@ public class LoginActivity extends BaseActivity {
     ActivityLoginBinding binding;
     private GoogleSignInClient mGoogleSignInClient;
 
-    // Khai báo ở cấp class, NGOÀI onCreate
     private final ActivityResultLauncher<Intent> googleSignInLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());

@@ -20,6 +20,10 @@ public class IntroActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (mAuth.getCurrentUser() != null) {
+            startActivity(new Intent(IntroActivity.this, MainActivity.class));
+            return;
+        }
         binding = ActivityIntroBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
