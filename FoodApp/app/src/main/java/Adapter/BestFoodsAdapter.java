@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import Domain.Foods;
+import Helper.Cloud_Service;
 
 public class BestFoodsAdapter extends RecyclerView.Adapter<BestFoodsAdapter.ViewHolder> {
     ArrayList<Foods> items;
@@ -44,7 +45,7 @@ public class BestFoodsAdapter extends RecyclerView.Adapter<BestFoodsAdapter.View
         holder.starTxt.setText(""+items.get(position).getStar());
         holder.timeTxt.setText(items.get(position).getTimeValue()+" min");
 
-        try {
+        /*try {
             InputStream inputStream = context.getAssets()
                     .open("food/" + items.get(position).getImagePath());
 
@@ -55,7 +56,9 @@ public class BestFoodsAdapter extends RecyclerView.Adapter<BestFoodsAdapter.View
         } catch (IOException e) {
             e.printStackTrace();
             holder.pic.setImageResource(R.drawable.logo); // ảnh mặc định nếu lỗi
-        }
+        }*/
+
+        Cloud_Service.loadCloudinaryImageWithGlide(items.get(position).getTitle(), holder.pic);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent= new Intent(context, DetailActivity.class);

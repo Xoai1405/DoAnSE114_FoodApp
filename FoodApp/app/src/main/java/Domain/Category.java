@@ -1,17 +1,17 @@
 package Domain;
 
 public class Category {
-    private int id;
+    private int Id;
     private String ImagePath;
     private String Name;
 
     public Category() {
     }
     public int getId() {
-        return id;
+        return Id;
     }
     public void setId(int id) {
-        this.id = id;
+        this.Id = id;
     }
     public String getImagePath() {
         return ImagePath;

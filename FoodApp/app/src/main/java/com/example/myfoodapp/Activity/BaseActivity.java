@@ -9,6 +9,10 @@ import com.example.myfoodapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.cloudinary.android.MediaManager;
+import java.util.HashMap;
+import java.util.Map;
+
 public class BaseActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseDatabase database;
@@ -22,5 +26,20 @@ public class BaseActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+
+        initConfigCloudinary();
+    }
+
+    private void initConfigCloudinary() {
+        try {
+            Map<String, String> config = new HashMap<>();
+            // Thay bằng Tên Cloud của bạn trên Dashboard Cloudinary
+            config.put("cloud_name", "dqehmxzq6");
+
+            MediaManager.init(this, config);
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
     }
 }

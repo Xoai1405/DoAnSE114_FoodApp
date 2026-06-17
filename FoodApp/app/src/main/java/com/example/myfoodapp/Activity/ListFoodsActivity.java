@@ -1,6 +1,7 @@
 package com.example.myfoodapp.Activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -45,6 +46,7 @@ private boolean isSearch;
             return insets;
         });
         getIntentExtra();
+        android.util.Log.e("CHECK_DATA", "=== ID DANH MỤC TRUYỀN SANG LÀ: " + categoryId + " ===");
         initList();
         setVariable();
     }
@@ -62,7 +64,7 @@ private boolean isSearch;
             query=myRef.orderByChild("Title").startAt(searchText).endAt(searchText+'\uf8ff');
         }
         else{
-            query=myRef.orderByChild("CategoryID").equalTo(categoryId);
+            query=myRef.orderByChild("CategoryId").equalTo(categoryId);
         }
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -76,8 +78,9 @@ private boolean isSearch;
                         adapterListFood=new FoodListAdapter(list);
                         binding.foodListView.setAdapter(adapterListFood);
                     }
-                    binding.progressBar.setVisibility(View.GONE);
+
                 }
+                binding.progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -85,10 +88,11 @@ private boolean isSearch;
 
             }
         });
+
     }
     private void getIntentExtra(){
         categoryId=getIntent().getIntExtra("CategoryId",0);
-        categoryName=getIntent().getStringExtra("CatergoryName");
+        categoryName=getIntent().getStringExtra("CategoryName");
         searchText=getIntent().getStringExtra("text");
         isSearch=getIntent().getBooleanExtra("IsSearch",false);
         binding.titleTxt.setText(categoryName);

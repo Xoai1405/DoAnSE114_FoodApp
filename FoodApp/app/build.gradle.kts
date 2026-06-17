@@ -57,12 +57,14 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(platform("com.google.firebase:firebase-bom:33.1.1"))
-
+    implementation("com.facebook.fresco:fresco:3.2.0") // hoặc bản mới hơn nữa
+    implementation("com.facebook.fresco:imagepipeline:3.2.0")
 
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-storage")
 
+    implementation("com.cloudinary:cloudinary-android:2.5.0")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")

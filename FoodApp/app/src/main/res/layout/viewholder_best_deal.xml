@@ -63,7 +63,9 @@
                 app:layout_constraintStart_toEndOf="@+id/starTxt"
                 app:layout_constraintTop_toTopOf="@+id/starTxt"
                 app:layout_constraintVertical_bias="0.0"
-                tools:srcCompat="@drawable/star" />
+                android:layout_marginLeft="5dp"
+
+                app:srcCompat="@drawable/star" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -96,6 +98,8 @@
                 app:layout_constraintStart_toEndOf="@+id/timeTxt"
                 app:layout_constraintTop_toTopOf="@+id/timeTxt"
                 app:layout_constraintVertical_bias="0.0"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="2dp"
                 app:srcCompat="@drawable/time" />
 
             <TextView

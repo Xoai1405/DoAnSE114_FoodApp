@@ -88,7 +88,8 @@
                 android:text="Forget Password?"
                 android:textSize="16sp"
                 android:layout_margin="32dp"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                android:textColor="@color/red"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/loginBtn"
@@ -166,6 +167,7 @@
                     android:id="@+id/signupTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
                     android:text="Sign up"
                     android:textSize="16sp"
                     android:textColor="@color/red"/>
