@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -72,6 +73,9 @@ public class MainActivity extends BaseActivity {
                 intent.putExtra("text",text);
                 intent.putExtra("isSearch",true);
                 startActivity(intent);
+            } else
+            {
+                Toast.makeText(MainActivity.this,"Searching for food can not be blank",Toast.LENGTH_SHORT);
             }
         });
     }

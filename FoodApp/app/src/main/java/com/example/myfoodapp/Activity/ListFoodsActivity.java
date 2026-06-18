@@ -46,7 +46,6 @@ private boolean isSearch;
             return insets;
         });
         getIntentExtra();
-        android.util.Log.e("CHECK_DATA", "=== ID DANH MỤC TRUYỀN SANG LÀ: " + categoryId + " ===");
         initList();
         setVariable();
     }
@@ -55,46 +54,82 @@ private boolean isSearch;
 
     }
     private void initList(){
-        DatabaseReference myRef=database.getReference("Foods");
+        DatabaseReference myRef = database.getReference("Foods");
         binding.progressBar.setVisibility(View.VISIBLE);
-        ArrayList<Foods> list= new ArrayList<>();
+        ArrayList<Foods> list = new ArrayList<>();
 
-        Query query;
-        if(isSearch){
-            query=myRef.orderByChild("Title").startAt(searchText).endAt(searchText+'\uf8ff');
-        }
-        else{
-            query=myRef.orderByChild("CategoryId").equalTo(categoryId);
-        }
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists()){
-                    for(DataSnapshot issue: snapshot.getChildren()){
-                        list.add(issue.getValue(Foods.class));
-                    }
-                    if(list.size()>0){
-                        binding.foodListView.setLayoutManager(new GridLayoutManager(ListFoodsActivity.this,2));
-                        adapterListFood=new FoodListAdapter(list);
-                        binding.foodListView.setAdapter(adapterListFood);
-                    }
+        // TRƯỜNG HỢP 1: CÓ SEARCH (Lọc bằng code ở Client sau khi lấy hết data)
+        if (isSearch) {
+            // Ép chuỗi tìm kiếm về chữ thường trước để tối ưu, tránh ép kiểu nhiều lần trong vòng lặp
+            String lowerSearchText = searchText.toLowerCase().trim();
 
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot issue : snapshot.getChildren()) {
+                            Foods food = issue.getValue(Foods.class);
+
+                            if (food != null && food.getTitle() != null) {
+                                String lowerTitle = food.getTitle().toLowerCase();
+
+                                // Sử dụng contains nếu muốn tìm kiếm gần đúng (chứa từ khóa)
+                                if (lowerTitle.contains(lowerSearchText)) {
+                                    list.add(food);
+                                }
+                            }
+                        }
+                        // Hiển thị dữ liệu lên giao diện
+                        setupRecyclerView(list);
+                    }
+                    binding.progressBar.setVisibility(View.GONE);
                 }
-                binding.progressBar.setVisibility(View.GONE);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    binding.progressBar.setVisibility(View.GONE);
+                }
+            });
 
-            }
-        });
+            // TRƯỜNG HỢP 2: KHÔNG SEARCH (Query trực tiếp bằng CategoryId như cũ)
+        } else {
+            Query query = myRef.orderByChild("CategoryId").equalTo(categoryId);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot issue : snapshot.getChildren()) {
+                            list.add(issue.getValue(Foods.class));
+                        }
+                        // Hiển thị dữ liệu lên giao diện
+                        setupRecyclerView(list);
+                    }
+                    binding.progressBar.setVisibility(View.GONE);
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    binding.progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
+    }
+
+
+    private void setupRecyclerView(ArrayList<Foods> list) {
+        if (list.size() > 0) {
+            binding.foodListView.setLayoutManager(new GridLayoutManager(ListFoodsActivity.this, 2));
+            adapterListFood = new FoodListAdapter(list);
+            binding.foodListView.setAdapter(adapterListFood);
+        } else {
+            binding.foodListView.setAdapter(null);
+        }
     }
     private void getIntentExtra(){
         categoryId=getIntent().getIntExtra("CategoryId",0);
         categoryName=getIntent().getStringExtra("CategoryName");
         searchText=getIntent().getStringExtra("text");
-        isSearch=getIntent().getBooleanExtra("IsSearch",false);
+        isSearch=getIntent().getBooleanExtra("isSearch",false);
         binding.titleTxt.setText(categoryName);
         binding.backBtn.setOnClickListener(v->finish());
     }

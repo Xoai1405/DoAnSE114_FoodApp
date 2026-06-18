@@ -15,6 +15,7 @@ import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.ActivityDetailBinding;
 
 import Domain.Foods;
+import Helper.Cloud_Service;
 
 public class DetailActivity extends BaseActivity {
     ActivityDetailBinding binding;
@@ -39,9 +40,11 @@ public class DetailActivity extends BaseActivity {
     private void setVariable() {
         binding.backBtn.setOnClickListener(v -> finish());
 
-        Glide.with(DetailActivity.this)
+        /*Glide.with(DetailActivity.this)
                 .load(object.getImagePath())
-                .into(binding.pic);
+                .into(binding.pic);*/
+
+        Cloud_Service.loadCloudinaryImageWithGlide(object.getTitle(), binding.pic);
 
         binding.priceTxt.setText("$"+object.getPrice());
         binding.titleTxt.setText((object.getTitle()));
