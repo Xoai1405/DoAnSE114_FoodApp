@@ -16,11 +16,14 @@ import com.example.myfoodapp.databinding.ActivityDetailBinding;
 
 import Domain.Foods;
 import Helper.Cloud_Service;
+import Helper.ManagmentCart;
 
 public class DetailActivity extends BaseActivity {
     ActivityDetailBinding binding;
     private Foods object;
     private int num = 1;
+
+    private ManagmentCart managmentCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,9 @@ public class DetailActivity extends BaseActivity {
     }
 
     private void setVariable() {
+
+        managmentCart = new ManagmentCart(this);
+
         binding.backBtn.setOnClickListener(v -> finish());
 
         /*Glide.with(DetailActivity.this)
@@ -67,6 +73,14 @@ public class DetailActivity extends BaseActivity {
                 num = num - 1;
                 binding.numTxt.setText(String.valueOf(num));
                 binding.totalTxt.setText((num * object.getPrice()) + "$");
+            }
+        });
+
+        binding.addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                object.setNumberInCart(num);
+                managmentCart.insertFood(object);
             }
         });
     }

@@ -78,6 +78,13 @@ public class MainActivity extends BaseActivity {
                 Toast.makeText(MainActivity.this,"Searching for food can not be blank",Toast.LENGTH_SHORT);
             }
         });
+        binding.cartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initBestFood() {
