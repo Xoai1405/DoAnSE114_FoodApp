@@ -68,8 +68,18 @@ public class LoginActivity extends BaseActivity {
 
                 mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, task -> {
                     if (task.isSuccessful()) {
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
+                        // Reload để lấy trạng thái verified mới nhất từ server
+                        mAuth.getCurrentUser().reload().addOnCompleteListener(reloadTask -> {
+                            if (mAuth.getCurrentUser().isEmailVerified()) {
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this,
+                                        "Vui lòng xác thực email trước khi đăng nhập.",
+                                        Toast.LENGTH_LONG).show();
+                                mAuth.signOut();
+                            }
+                        });
                     } else {
                         Toast.makeText(LoginActivity.this, "Đăng nhập thất bại. Kiểm tra lại email hoặc mật khẩu.", Toast.LENGTH_SHORT).show();
                     }
@@ -98,8 +108,15 @@ public class LoginActivity extends BaseActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
+                        if (mAuth.getCurrentUser().isEmailVerified()) {
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this,
+                                    "Vui lòng xác thực email trước khi đăng nhập.",
+                                    Toast.LENGTH_LONG).show();
+                            mAuth.signOut();
+                        }
                     } else {
                         Toast.makeText(this, "Xác thực Google thất bại", Toast.LENGTH_SHORT).show();
                     }
