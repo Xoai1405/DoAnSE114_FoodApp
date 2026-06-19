@@ -90,6 +90,28 @@ public class MainActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        binding.viewAllBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ListFoodsActivity.class);
+            intent.putExtra("isViewAll", true); // Báo cho bên kia biết tôi muốn xem hết Best Foods
+            startActivity(intent);
+        });
+
+        binding.filterBtn.setOnClickListener(v -> {
+            // Kiểm tra xem thanh bộ lọc đang ẩn (GONE) hay đang hiện (VISIBLE)
+            if (binding.layoutFilter.getVisibility() == View.GONE) {
+
+                // Nếu đang ẩn -> Cho hiện lên
+                binding.layoutFilter.setVisibility(View.VISIBLE);
+
+                // (Tùy chọn) Thêm hiệu ứng động cho mượt mà nếu muốn
+                binding.layoutFilter.setAlpha(0f);
+                binding.layoutFilter.animate().alpha(1f).setDuration(300).start();
+
+            } else {
+                // Nếu đang hiện -> Bấm lần nữa thì ẩn đi
+                binding.layoutFilter.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void initBestFood() {

@@ -33,6 +33,7 @@ private int categoryId;
 private String categoryName;
 private String searchText;
 private boolean isSearch;
+private boolean isViewAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +58,30 @@ private boolean isSearch;
         DatabaseReference myRef = database.getReference("Foods");
         binding.progressBar.setVisibility(View.VISIBLE);
         ArrayList<Foods> list = new ArrayList<>();
+        if (isViewAll) {
+            // Câu lệnh này sẽ lọc đúng những món ăn có "BestFood: true" trong bảng Foods giống như trên ảnh của bạn
+            Query query = myRef.orderByChild("BestFood").equalTo(true);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        for (DataSnapshot issue : snapshot.getChildren()) {
+                            list.add(issue.getValue(Foods.class));
+                        }
+                        setupRecyclerView(list);
+                    }
+                    binding.progressBar.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    binding.progressBar.setVisibility(View.GONE);
+                }
+            });
+        }
 
         // TRƯỜNG HỢP 1: CÓ SEARCH (Lọc bằng code ở Client sau khi lấy hết data)
-        if (isSearch) {
+        else if (isSearch) {
             // Ép chuỗi tìm kiếm về chữ thường trước để tối ưu, tránh ép kiểu nhiều lần trong vòng lặp
             String lowerSearchText = searchText.toLowerCase().trim();
 
@@ -130,7 +152,13 @@ private boolean isSearch;
         categoryName=getIntent().getStringExtra("CategoryName");
         searchText=getIntent().getStringExtra("text");
         isSearch=getIntent().getBooleanExtra("isSearch",false);
-        binding.titleTxt.setText(categoryName);
+        isViewAll=getIntent().getBooleanExtra("isViewAll",false);
+        // nếu là chế độ xem hết thì đổi tiêu đề
+        if (isViewAll) {
+            binding.titleTxt.setText("Today's Best Foods");
+        } else {
+            binding.titleTxt.setText(categoryName);
+        }
         binding.backBtn.setOnClickListener(v->finish());
     }
 }
