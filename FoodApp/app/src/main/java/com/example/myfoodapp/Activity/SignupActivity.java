@@ -55,7 +55,11 @@ public class SignupActivity extends BaseActivity {
                 mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(SignupActivity.this, task -> {
                     if (task.isSuccessful()) {
 
-                        startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                        mAuth.getCurrentUser().sendEmailVerification();
+                        Toast.makeText(SignupActivity.this,
+                                "Đăng ký thành công! Kiểm tra email để xác thực tài khoản.",
+                                Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                         finish();
                     } else {
 
