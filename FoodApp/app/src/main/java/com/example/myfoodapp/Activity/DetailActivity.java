@@ -15,15 +15,17 @@ import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.ActivityDetailBinding;
 
 import Domain.Foods;
+import Helper.Cloud_Service;
 
 public class DetailActivity extends BaseActivity {
     ActivityDetailBinding binding;
     private Foods object;
-    private  int num=1;
+    private int num = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityDetailBinding.inflate(getLayoutInflater());
+        binding = ActivityDetailBinding.inflate(getLayoutInflater());
         EdgeToEdge.enable(this);
         setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -39,19 +41,37 @@ public class DetailActivity extends BaseActivity {
     private void setVariable() {
         binding.backBtn.setOnClickListener(v -> finish());
 
-        Glide.with(DetailActivity.this)
+        /*Glide.with(DetailActivity.this)
                 .load(object.getImagePath())
-                .into(binding.pic);
+                .into(binding.pic);*/
 
-        binding.priceTxt.setText("$"+object.getPrice());
+        Cloud_Service.loadCloudinaryImageWithGlide(object.getTitle(), binding.pic);
+
+        binding.priceTxt.setText("$" + object.getPrice());
         binding.titleTxt.setText((object.getTitle()));
         binding.descriptionTxt.setText(object.getDescription());
-        binding.rateTxt.setText(object.getStar()+" Rating");
+        binding.rateTxt.setText(object.getStar() + " Rating");
         binding.ratingBar.setRating((float) object.getStar());
-        binding.totalTxt.setText((num*object.getPrice()+"$"));
+        binding.totalTxt.setText((num * object.getPrice() + "$"));
+
+        binding.numTxt.setText(String.valueOf(num));
+
+        binding.plusBtn.setOnClickListener(v -> {
+            num = num + 1;
+            binding.numTxt.setText(String.valueOf(num));
+            binding.totalTxt.setText((num * object.getPrice()) + "$");
+        });
+
+        binding.minusBtn.setOnClickListener(v -> {
+            if (num > 1) {
+                num = num - 1;
+                binding.numTxt.setText(String.valueOf(num));
+                binding.totalTxt.setText((num * object.getPrice()) + "$");
+            }
+        });
     }
 
     private void getIntentExtra() {
-        object=(Foods) getIntent().getSerializableExtra("object");
+        object = (Foods) getIntent().getSerializableExtra("object");
     }
 }

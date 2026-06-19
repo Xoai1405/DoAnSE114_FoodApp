@@ -19,6 +19,7 @@ import com.example.myfoodapp.R;
 import java.util.ArrayList;
 
 import Domain.Foods;
+import Helper.Cloud_Service;
 
 public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.viewholder> {
     ArrayList<Foods> items;
@@ -41,10 +42,11 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.viewho
         holder.priceTxt.setText("$" + items.get(position).getPrice());
         holder.rateTxt.setText(""+items.get(position).getStar());
 
-        Glide.with(context)
+        /*Glide.with(context)
                 .load(items.get(position).getImagePath())
                 .transform(new CenterCrop(), new RoundedCorners(30))
-                .into(holder.pic);
+                .into(holder.pic);*/
+        Cloud_Service.loadCloudinaryImageWithGlide(items.get(position).getTitle(), holder.pic);
 
         holder.itemView.setOnClickListener(v -> {
             Intent intent= new Intent(context, DetailActivity.class);

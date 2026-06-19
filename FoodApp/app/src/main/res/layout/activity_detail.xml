@@ -52,13 +52,14 @@
                         android:id="@+id/backBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
                         android:padding="8dp"
-                        app:tint="@color/white"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:srcCompat="@drawable/arrow" />
+                        app:srcCompat="@drawable/arrow"
+
+                         />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout

@@ -51,7 +51,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             case 1:
                 holder.pic.setBackgroundResource(R.drawable.cat_0_background);
                 break;
-                case 2:
+            case 2:
                 holder.pic.setBackgroundResource(R.drawable.cat_2_background);
                 break;
             case 3:
