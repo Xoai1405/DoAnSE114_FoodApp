@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 
+import com.example.myfoodapp.Fragment.homeFragment;
 import com.example.myfoodapp.databinding.ActivityLoginBinding;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -77,7 +78,8 @@ public class LoginActivity extends BaseActivity {
                         // Reload để lấy trạng thái verified mới nhất từ server
                         mAuth.getCurrentUser().reload().addOnCompleteListener(reloadTask -> {
                             if (mAuth.getCurrentUser().isEmailVerified()) {
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                // CHỖ NÀY ĐÃ SỬA: Chuyển sang DashboardActivity thay vì MainActivity
+                                startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                                 finish();
                             } else {
                                 Toast.makeText(LoginActivity.this,
@@ -103,8 +105,6 @@ public class LoginActivity extends BaseActivity {
             startActivity(new Intent(LoginActivity.this, SignupActivity.class));
             finish();
         });
-
-
     }
 
     private void signInWithGoogle() {
@@ -141,7 +141,7 @@ public class LoginActivity extends BaseActivity {
                     reference.child("Users").child(id).setValue(newUser).addOnCompleteListener(writeTask -> {
                         if (writeTask.isSuccessful()) {
                             Toast.makeText(LoginActivity.this, "Đăng nhập thành công.", Toast.LENGTH_SHORT).show(); // Nhớ thêm .show() nha má nãy thiếu kìa!
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                             finish(); // Nhớ finish để họ không bấm nút Back quay lại màn Login được nữa
                         } else {
                             Toast.makeText(LoginActivity.this, "Đăng nhập thất bại.", Toast.LENGTH_SHORT).show();
@@ -150,7 +150,7 @@ public class LoginActivity extends BaseActivity {
                 } else {
                     // Nếu nút đã tồn tại -> Người cũ đăng nhập lại -> Không lưu gì hết, cho qua thẳng MainActivity luôn
                     Toast.makeText(LoginActivity.this, "Chào mừng bạn quay trở lại.", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                     finish();
                 }
             }
