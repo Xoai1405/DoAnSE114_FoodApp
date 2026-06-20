@@ -6,11 +6,12 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import com.example.myfoodapp.Fragment.ProfileFragment;  // File Fragment tài khoản
 import com.example.myfoodapp.Fragment.homeFragment;       // Tên đúng chuẩn nên viết hoa chữ cái đầu nha bạn
 import com.example.myfoodapp.Fragment.CartFragment;       // File Fragment giỏ hàng
 import com.example.myfoodapp.Fragment.DealFragment;       // File Fragment khuyến mãi/đãi ngộ
 import com.example.myfoodapp.Fragment.FavoriteFragment;   // File Fragment yêu thích
-import com.example.myfoodapp.Fragment.UserFragment;    // File Fragment tài khoản
 
 import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.ActivityDashboardBinding;
@@ -24,7 +25,7 @@ public class DashboardActivity extends BaseActivity {
     private final Fragment cartFragment = new CartFragment();
     private final Fragment dealFragment = new DealFragment();
     private final Fragment favoriteFragment = new FavoriteFragment();
-    private final Fragment profileFragment = new UserFragment();
+    private final Fragment profileFragment = new ProfileFragment();
 
     private Fragment activeFragment = homeFragment;
 
