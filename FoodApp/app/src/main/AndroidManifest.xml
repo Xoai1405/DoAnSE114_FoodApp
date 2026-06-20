@@ -46,6 +46,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Activity.VoucherActivity"
+            android:exported="false" />
+        <activity
             android:name=".DashboardActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
