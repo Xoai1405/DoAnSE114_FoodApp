@@ -46,19 +46,19 @@ public class SignupActivity extends BaseActivity {
         String confirmPassword = binding.confirmPassEdt.getText().toString();
 
         if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(SignupActivity.this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignupActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            Toast.makeText(SignupActivity.this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignupActivity.this, "Invalid email address", Toast.LENGTH_SHORT).show();
             return;
         }
         if (password.length() < 6) {
-            Toast.makeText(SignupActivity.this, "Mật khẩu phải có ít nhất 6 ký tự", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignupActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
             return;
         }
         if (!password.equals(confirmPassword)) {
-            Toast.makeText(SignupActivity.this, "Mật khẩu xác nhận không khớp", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -77,12 +77,12 @@ public class SignupActivity extends BaseActivity {
                         if (writeTask.isSuccessful()) {
                             mAuth.getCurrentUser().sendEmailVerification();
                             Toast.makeText(SignupActivity.this,
-                                    "Đăng ký thành công! Kiểm tra email để xác thực tài khoản.",
+                                    "Registration successful! Please check your email to verify your account.",
                                     Toast.LENGTH_LONG).show();
                             startActivity(new Intent(SignupActivity.this, LoginActivity.class));
                             finish();
                         } else {
-                            Toast.makeText(SignupActivity.this, "Lưu thông tin thất bại!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "Failed to save user data!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -92,10 +92,10 @@ public class SignupActivity extends BaseActivity {
             {
 
                 if (task.getException() instanceof com.google.firebase.auth.FirebaseAuthUserCollisionException) {
-                    Toast.makeText(SignupActivity.this, "Email này đã được đăng ký từ trước!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(SignupActivity.this, "This email is already registered!", Toast.LENGTH_LONG).show();
                 } else {
                     // Các lỗi khác (như mất mạng, lỗi server...)
-                    String err = task.getException() != null ? task.getException().getMessage() : "Đăng ký thất bại!";
+                    String err = task.getException() != null ? task.getException().getMessage() : "Registration failed!";
                     Toast.makeText(SignupActivity.this, err, Toast.LENGTH_LONG).show();
                 }
             }

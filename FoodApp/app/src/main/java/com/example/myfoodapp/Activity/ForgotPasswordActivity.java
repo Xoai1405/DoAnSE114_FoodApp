@@ -28,11 +28,11 @@ public class ForgotPasswordActivity extends BaseActivity {
             String email = binding.emailEdt.getText().toString().trim();
 
             if (email.isEmpty()) {
-                Toast.makeText(this, "Vui lòng nhập email", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter your email", Toast.LENGTH_SHORT).show();
                 return;
             }
             if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                Toast.makeText(this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -42,13 +42,13 @@ public class ForgotPasswordActivity extends BaseActivity {
                         binding.sendBtn.setEnabled(true);
                         if (task.isSuccessful()) {
                             Toast.makeText(this,
-                                    "Email đặt lại mật khẩu đã được gửi. Kiểm tra hộp thư của bạn.",
+                                    "Password reset email sent. Please check your inbox.",
                                     Toast.LENGTH_LONG).show();
                             finish(); // Quay về màn Login
                         } else {
                             String errorMsg = task.getException() != null
                                     ? task.getException().getMessage()
-                                    : "Gửi email thất bại";
+                                    : "Failed to send email";
                             Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
                         }
                     });

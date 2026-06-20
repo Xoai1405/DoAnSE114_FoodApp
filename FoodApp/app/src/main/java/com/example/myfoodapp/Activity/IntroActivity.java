@@ -22,7 +22,8 @@ public class IntroActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         if (mAuth.getCurrentUser() != null) {
             if (mAuth.getCurrentUser().isEmailVerified()) {
-                startActivity(new Intent(IntroActivity.this, MainActivity.class));
+                startActivity(new Intent(IntroActivity.this, DashboardActivity.class));
+
             } else {
                 mAuth.signOut(); // Đăng xuất user chưa xác thực
             }

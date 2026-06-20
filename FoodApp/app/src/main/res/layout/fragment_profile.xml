@@ -16,23 +16,49 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:text="Hồ sơ cá nhân"
+            android:text="Profile"
             android:textColor="@color/blue_grey"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/avatarTv"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+        <FrameLayout
+            android:layout_width="86dp"
+            android:layout_height="86dp"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/avatar_circle_background"
-            android:gravity="center"
-            android:text="HB"
-            android:textColor="@color/red"
-            android:textSize="26sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="20dp">
+
+            <ImageView
+                android:id="@+id/avatarImg"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                android:contentDescription="Profile picture" />
+
+            <TextView
+                android:id="@+id/avatarTv"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:background="@drawable/avatar_circle_background"
+                android:gravity="center"
+                android:text="HB"
+                android:textColor="@color/red"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/changeAvatarBtn"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="bottom|end"
+                android:background="@drawable/avatar_plus_background"
+                android:padding="6dp"
+                android:src="@android:drawable/ic_input_add"
+                app:tint="@color/white"
+                android:contentDescription="Change profile picture" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/emailTv"
@@ -44,13 +70,12 @@
             android:textColor="#888888"
             android:textSize="13sp" />
 
-        <!-- Tên hiển thị -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="28dp"
-            android:text="Tên hiển thị"
+            android:text="Display Name"
             android:textColor="@color/blue_grey"
             android:textSize="13sp" />
 
@@ -62,18 +87,17 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/edittext_background"
-            android:hint="Tên hiển thị"
+            android:hint="Enter your name"
             android:paddingStart="16dp"
             android:textColor="@color/blue_grey"
             android:textSize="15sp" />
 
-        <!-- Số điện thoại -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
-            android:text="Số điện thoại"
+            android:text="Phone Number"
             android:textColor="@color/blue_grey"
             android:textSize="13sp" />
 
@@ -85,19 +109,18 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/edittext_background"
-            android:hint="Số điện thoại"
+            android:hint="Enter phone number"
             android:inputType="phone"
             android:paddingStart="16dp"
             android:textColor="@color/blue_grey"
             android:textSize="15sp" />
 
-        <!-- Địa chỉ mặc định -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
-            android:text="Địa chỉ mặc định"
+            android:text="Default Address"
             android:textColor="@color/blue_grey"
             android:textSize="13sp" />
 
@@ -109,7 +132,7 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/edittext_background"
-            android:hint="Địa chỉ giao hàng mặc định"
+            android:hint="Enter default delivery address"
             android:paddingStart="16dp"
             android:textColor="@color/blue_grey"
             android:textSize="15sp" />
@@ -121,12 +144,11 @@
             android:layout_height="wrap_content"
             android:layout_margin="32dp"
             android:background="@drawable/red_button_background"
-            android:text="Lưu thay đổi"
+            android:text="Save Changes"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
 
-        <!-- Đổi mật khẩu -->
         <LinearLayout
             android:id="@+id/changePasswordBtn"
             android:layout_width="match_parent"
@@ -142,7 +164,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Đổi mật khẩu"
+                android:text="Change Password"
                 android:textColor="@color/blue_grey"
                 android:textSize="15sp" />
 
@@ -161,7 +183,6 @@
             android:layout_marginEnd="32dp"
             android:background="#E0E0E0" />
 
-        <!-- Đăng xuất -->
         <LinearLayout
             android:id="@+id/logoutBtn"
             android:layout_width="match_parent"
@@ -177,7 +198,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Đăng xuất"
+                android:text="Log Out"
                 android:textColor="@color/red"
                 android:textSize="15sp" />
 
