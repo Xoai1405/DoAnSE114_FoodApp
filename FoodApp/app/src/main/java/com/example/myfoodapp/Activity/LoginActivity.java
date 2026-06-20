@@ -38,7 +38,7 @@ public class LoginActivity extends BaseActivity {
                     GoogleSignInAccount account = task.getResult(ApiException.class);
                     firebaseAuthWithGoogle(account.getIdToken());
                 } catch (ApiException e) {
-                    Toast.makeText(this, "Đăng nhập Google thất bại: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Google sign-in failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -65,11 +65,11 @@ public class LoginActivity extends BaseActivity {
                 String password = binding.passEdt.getText().toString();
 
                 if (email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Vui lòng nhập email và mật khẩu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Please enter your email and password", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    Toast.makeText(LoginActivity.this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Invalid email address", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -78,18 +78,17 @@ public class LoginActivity extends BaseActivity {
                         // Reload để lấy trạng thái verified mới nhất từ server
                         mAuth.getCurrentUser().reload().addOnCompleteListener(reloadTask -> {
                             if (mAuth.getCurrentUser().isEmailVerified()) {
-                                // CHỖ NÀY ĐÃ SỬA: Chuyển sang DashboardActivity thay vì MainActivity
                                 startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                                 finish();
                             } else {
                                 Toast.makeText(LoginActivity.this,
-                                        "Vui lòng xác thực email trước khi đăng nhập.",
+                                        "Please verify your email before signing in.",
                                         Toast.LENGTH_LONG).show();
                                 mAuth.signOut();
                             }
                         });
                     } else {
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại. Kiểm tra lại email hoặc mật khẩu.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Login failed. Please check your email or password.", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -124,7 +123,7 @@ public class LoginActivity extends BaseActivity {
                         // 2. Gọi hàm lưu thông tin vào Realtime Database ở dưới
                         saveUserToDatabase(uid, username, email);
                     } else {
-                        Toast.makeText(this, "Xác thực Google thất bại", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Google authentication failed", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -135,21 +134,21 @@ public class LoginActivity extends BaseActivity {
         reference.child("Users").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // Nếu nút này CHƯA tồn tại (!snapshot.exists()) -> Người dùng mới tinh -> Tiến hành lưu
+                // Nếu nút này CHƯA tồn tại (!snapshot.exists()) -> Người dùng mới -> Tiến hành lưu
                 if (!snapshot.exists()) {
                     User newUser = new User(id, name, "", email);
                     reference.child("Users").child(id).setValue(newUser).addOnCompleteListener(writeTask -> {
                         if (writeTask.isSuccessful()) {
-                            Toast.makeText(LoginActivity.this, "Đăng nhập thành công.", Toast.LENGTH_SHORT).show(); // Nhớ thêm .show() nha má nãy thiếu kìa!
+                            Toast.makeText(LoginActivity.this, "Sign in successful.", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
-                            finish(); // Nhớ finish để họ không bấm nút Back quay lại màn Login được nữa
+                            finish(); //finish để không bấm nút Back quay lại màn Login được nữa
                         } else {
-                            Toast.makeText(LoginActivity.this, "Đăng nhập thất bại.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Sign in failed.", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
-                    // Nếu nút đã tồn tại -> Người cũ đăng nhập lại -> Không lưu gì hết, cho qua thẳng MainActivity luôn
-                    Toast.makeText(LoginActivity.this, "Chào mừng bạn quay trở lại.", Toast.LENGTH_SHORT).show();
+                    // Nếu nút đã tồn tại -> Người cũ đăng nhập lại -> Không lưu, cho qua thẳng MainActivity
+                    Toast.makeText(LoginActivity.this, "Welcome back!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
                     finish();
                 }
@@ -157,7 +156,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(LoginActivity.this, "Lỗi: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
