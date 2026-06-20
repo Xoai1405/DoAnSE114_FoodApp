@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.myfoodapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import com.cloudinary.android.MediaManager;
@@ -16,6 +17,8 @@ import java.util.Map;
 public class BaseActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseDatabase database;
+
+    DatabaseReference reference;
     public String TAG = "HTBB";
 
     @Override
@@ -24,6 +27,7 @@ public class BaseActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        reference = FirebaseDatabase.getInstance().getReference();
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.white));
 

@@ -29,7 +29,7 @@ public class ManagmentCart {
             }
         }
         if(existAlready){
-            listpop.get(n).setNumberInCart(item.getNumberInCart() + listpop.get(n).getNumberInCart());
+            listpop.get(n).setNumberInCart(item.getNumberInCart());
         }else{
             listpop.add(item);
         }
