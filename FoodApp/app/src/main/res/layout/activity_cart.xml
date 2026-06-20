@@ -23,7 +23,6 @@
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:text="Cart"
                 android:textAlignment="center"
                 android:textColor="@color/blue_grey"
@@ -33,40 +32,51 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/CartView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/voucherSection"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:orientation="horizontal">
+                android:background="@drawable/grey_background"
+                android:padding="12dp">
 
-                <EditText
-                    android:id="@+id/editTextText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/grey_background"
-                    android:ems="10"
-                    android:hint="Enter your code..."
-                    android:inputType="text"
-                    android:textAlignment="center"
-                    android:textColor="@color/blue_grey"
-                    android:textColorHint="@color/blue_grey"
-                    android:textSize="14sp" />
+                <ImageView
+                    android:id="@+id/voucherIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/red_button_background"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="#EE4D2D" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/button"
-                    style="@android:style/Widget.Button"
-                    android:layout_width="100dp"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/red_button_background"
-                    android:text="Apply voucher"
-                    android:textColor="@color/white" />
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/selectedVoucherTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:text="Chọn mã khuyến mãi"
+                    android:textColor="#333333"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/arrowIcon"
+                    app:layout_constraintStart_toEndOf="@id/voucherIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/arrowIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:rotation="180"
+                    android:src="@drawable/arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="match_parent"
@@ -81,19 +91,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/grey_background"
-
-                >
+                android:background="@drawable/grey_background">
 
                 <TextView
-                    android:id="@+id/textView16"
+                    android:id="@+id/textView13"
                     style="@style/NormalTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Total Tax"
-                    app:layout_constraintStart_toStartOf="@+id/textView14"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                    android:text="Subtotal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView14"
@@ -106,15 +115,26 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/textView16"
                     style="@style/NormalTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
-                    android:text="Subtotal"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:text="Total Tax"
+                    app:layout_constraintStart_toStartOf="@+id/textView14"
+                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+                <TextView
+                    android:id="@+id/discountLabel"
+                    style="@style/NormalTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Discount"
+                    android:textColor="#EE4D2D"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="@+id/textView16"
+                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
 
                 <TextView
                     android:id="@+id/SubtotalText"
@@ -146,6 +166,18 @@
                     app:layout_constraintEnd_toEndOf="@+id/DeliveryText"
                     app:layout_constraintTop_toBottomOf="@+id/DeliveryText" />
 
+                <TextView
+                    android:id="@+id/discountTxt"
+                    style="@style/NormalTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="-$0.0"
+                    android:textColor="#EE4D2D"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="@+id/TaxText"
+                    app:layout_constraintTop_toBottomOf="@+id/TaxText" />
+
                 <View
                     android:id="@+id/view4"
                     android:layout_width="0dp"
@@ -156,7 +188,7 @@
                     android:background="#ABABAB"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
+                    app:layout_constraintTop_toBottomOf="@+id/discountLabel" />
 
                 <TextView
                     android:id="@+id/textView22"
@@ -207,7 +239,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/arrow" />
-
 
     <TextView
         android:id="@+id/emptyCartText"
