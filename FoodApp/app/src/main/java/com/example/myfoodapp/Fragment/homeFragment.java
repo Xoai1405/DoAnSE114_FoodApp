@@ -37,11 +37,10 @@ import Domain.Location;
 import Domain.Price;
 import Domain.Time;
 
-public class homeFragment extends Fragment {
+public class homeFragment extends BaseFragment {
 
     private FragmentHomeBinding binding;
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase database;
+
 
     public homeFragment() {
         // Bắt buộc phải có hàm khởi tạo trống này
@@ -52,14 +51,7 @@ public class homeFragment extends Fragment {
         // 1. Khởi tạo ViewBinding cho Fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
-        // 2. Khởi tạo các biến Firebase (Vì Fragment không kế thừa BaseActivity nên phải gọi trực tiếp)
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
 
-        // 3. Hiển thị Username
-        String email = mAuth.getCurrentUser() != null ? mAuth.getCurrentUser().getEmail() : null;
-        String username = email != null ? email.split("@")[0] : "User";
-        binding.textView4.setText(username);
 
         // 4. Chạy các hàm load dữ liệu từ Firebase
         initLocation();
@@ -73,11 +65,6 @@ public class homeFragment extends Fragment {
     }
 
     private void setVariable() {
-        binding.logoutBtn.setOnClickListener(v -> {
-            mAuth.signOut();
-            startActivity(new Intent(getActivity(), LoginActivity.class));
-            getActivity().finish(); // Đóng luôn Activity chứa Fragment này
-        });
 
         binding.searchBtn.setOnClickListener(v -> {
             String text = binding.searchEdit.getText().toString();
@@ -91,10 +78,6 @@ public class homeFragment extends Fragment {
             }
         });
 
-        binding.cartBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), CartActivity.class);
-            startActivity(intent);
-        });
 
         binding.viewAllBtn.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), ListFoodsActivity.class);
