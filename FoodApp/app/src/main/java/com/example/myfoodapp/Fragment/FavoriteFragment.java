@@ -1,66 +1,149 @@
 package com.example.myfoodapp.Fragment;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.myfoodapp.R;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link FavoriteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class FavoriteFragment extends BaseFragment {
+import com.example.myfoodapp.databinding.FragmentFavoriteBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.ArrayList;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+import Adapter.FavoriteAdapter;
+import Domain.Foods;
+
+public class FavoriteFragment extends Fragment {
+
+    private FragmentFavoriteBinding binding;
+    private FirebaseDatabase database;
+    private ArrayList<Foods> favoriteFoodsList;
+    private FavoriteAdapter favoriteAdapter;
 
     public FavoriteFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FavoriteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FavoriteFragment newInstance(String param1, String param2) {
-        FavoriteFragment fragment = new FavoriteFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentFavoriteBinding.inflate(inflater, container, false);
+        database = FirebaseDatabase.getInstance();
+
+        // Load dữ liệu ban đầu
+        loadFavoriteFoods();
+
+        return binding.getRoot();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    private void loadFavoriteFoods() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            Toast.makeText(getActivity(), "Vui lòng đăng nhập!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String currentUserID = currentUser.getUid();
+        binding.progressBarFavorite.setVisibility(View.VISIBLE);
+
+        favoriteFoodsList = new ArrayList<>();
+
+        // 1. Vào bảng Favorites bốc các ID đã thích
+        DatabaseReference favRef = database.getReference("Favorites").child(currentUserID);
+        favRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!snapshot.exists()) {
+                    binding.progressBarFavorite.setVisibility(View.GONE);
+                    toggleEmptyState(true);
+                    return;
+                }
+
+                ArrayList<String> favFoodIds = new ArrayList<>();
+                for (DataSnapshot item : snapshot.getChildren()) {
+                    if (item.getValue() != null) {
+                        favFoodIds.add(item.getKey().trim());
+                    }
+                }
+
+                // 2. Đi tìm chi tiết thông tin từ bảng "Foods"
+                DatabaseReference foodsRef = database.getReference("Foods");
+                foodsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot foodSnapshot) {
+                        favoriteFoodsList.clear();
+
+                        for (DataSnapshot issue : foodSnapshot.getChildren()) {
+                            String foodKeyInFirebase = issue.getKey() != null ? issue.getKey().trim() : "";
+
+                            if (favFoodIds.contains(foodKeyInFirebase)) {
+                                Foods food = issue.getValue(Foods.class);
+                                if (food != null) {
+                                    try {
+                                        food.setID(Integer.parseInt(foodKeyInFirebase));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    favoriteFoodsList.add(food);
+                                }
+                            }
+                        }
+
+                        // 3. Khởi tạo RecyclerView và đổ dữ liệu
+                        if (getActivity() != null) {
+                            binding.favoriteListView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+                            // THAY ĐỔI Ở ĐÂY: Khi bên Adapter bấm nút xóa thành công,
+                            // nó sẽ kích hoạt lệnh này để Fragment chạy lại hàm loadFavoriteFoods() từ đầu!
+                            favoriteAdapter = new FavoriteAdapter(favoriteFoodsList, () -> {
+                                loadFavoriteFoods(); // <--- Lệnh ép Fragment load lại dữ liệu từ Firebase
+                            });
+
+                            binding.favoriteListView.setAdapter(favoriteAdapter);
+                        }
+
+                        binding.progressBarFavorite.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        binding.progressBarFavorite.setVisibility(View.GONE);
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                binding.progressBarFavorite.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    // Hàm tiện ích ẩn hiện danh sách trống động
+    private void toggleEmptyState(boolean isEmpty) {
+        if (isEmpty) {
+            binding.favoriteListView.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), "Danh sách yêu thích trống!", Toast.LENGTH_SHORT).show();
+            // Nếu trong layout fragment_favorite của bạn có TextView báo trống, bạn có thể gán hiển thị ở đây
+        } else {
+            binding.favoriteListView.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite, container, false);
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

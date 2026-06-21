@@ -109,6 +109,13 @@ public class homeFragment extends BaseFragment {
                 if (snapshot.exists()) {
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         Foods foods = issue.getValue(Foods.class);
+                        try {
+                            if (issue.getKey() != null) {
+                                foods.setID(Integer.parseInt(issue.getKey().trim()));
+                            }
+                        } catch (Exception e) {
+                            // Nếu tên node trên Firebase của bạn là chuỗi chữ (như -NXaB...), hãy báo tui đổi kiểu dữ liệu nhé
+                        }
                         list.add(foods);
                     }
                     if (list.size() > 0) {
