@@ -70,9 +70,8 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
         });
 
         // Màn hình yêu thích -> Mặc định tô đỏ trái tim
-        if (holder.favBtn != null) {
-            holder.favBtn.setSelected(true);
-
+       /* if (holder.favBtn != null) {
+            holder.favBtn.setVisibility(View.GONE);
             holder.favBtn.setOnClickListener(v -> {
                 int clickedPosition = holder.getAdapterPosition();
                 if (clickedPosition == RecyclerView.NO_POSITION) return;
@@ -99,7 +98,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
                     });
                 }
             });
-        }
+        }*/
     }
 
     @Override
@@ -108,7 +107,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img, favBtn;
+        ImageView img;
         TextView titleTxt, priceTxt, rateTxt, timeTxt;
 
         public ViewHolder(@NonNull View itemView) {
@@ -118,7 +117,6 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.ViewHo
             rateTxt = itemView.findViewById(R.id.rateTxt);
             timeTxt = itemView.findViewById(R.id.timeTxt);
             img = itemView.findViewById(R.id.img);
-            favBtn = itemView.findViewById(R.id.favBtn);
         }
     }
 }
