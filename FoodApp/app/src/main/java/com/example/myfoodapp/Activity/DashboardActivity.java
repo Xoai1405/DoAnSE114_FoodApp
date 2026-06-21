@@ -49,7 +49,6 @@ public class DashboardActivity extends BaseActivity {
         // Gọi hàm bắt sự kiện click cho các nút menu
         setVariable();
 
-        SetUpData();
     }
 
     private void setVariable() {
@@ -68,15 +67,6 @@ public class DashboardActivity extends BaseActivity {
 
         // Bấm nút Tài khoản -> Hiện màn hình Profile
         binding.UserBtn.setOnClickListener(v -> switchFragment(profileFragment));
-
-        binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
-                finish();
-            }
-        });
     }
 
 
@@ -92,14 +82,5 @@ public class DashboardActivity extends BaseActivity {
         activeFragment = targetFragment;
     }
 
-    private void SetUpData()
-    {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null)
-        {
-            String email = currentUser.getEmail();
-            String username = email != null ? email.split("@")[0] : "User";
-            binding.UserText.setText(username);
-        }
-    }
+
 }

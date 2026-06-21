@@ -20,6 +20,7 @@ import com.example.myfoodapp.Activity.LoginActivity;
 import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.FragmentHomeBinding; // Import đúng ViewBinding của fragment_home
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +61,7 @@ public class homeFragment extends BaseFragment {
         initBestFood();
         initCategory();
         setVariable();
+        SetUpData();
 
         return binding.getRoot();
     }
@@ -222,5 +224,16 @@ public class homeFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null; // Tránh rò rỉ bộ nhớ (Memory Leak)
+    }
+
+    private void SetUpData()
+    {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null)
+        {
+            String email = currentUser.getEmail();
+            String username = email != null ? email.split("@")[0] : "User";
+            binding.UserText.setText(username);
+        }
     }
 }

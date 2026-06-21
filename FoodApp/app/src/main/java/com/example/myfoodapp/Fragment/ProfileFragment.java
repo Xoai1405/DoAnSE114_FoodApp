@@ -121,7 +121,7 @@ public class ProfileFragment extends BaseFragment {
         if (binding == null) return;
         binding.avatarTv.setVisibility(View.GONE);
         binding.avatarImg.setVisibility(View.VISIBLE);
-        Cloud_Service.loadCloudinaryImageWithGlide(avatarId, PRESET_AVATAR_FOLDER, binding.avatarImg);
+        Cloud_Service.loadCloudinaryImageWithGlideCircle(avatarId, PRESET_AVATAR_FOLDER, binding.avatarImg);
     }
 
     private void loadUserData() {

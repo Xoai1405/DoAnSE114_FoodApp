@@ -62,6 +62,10 @@ public class Cloud_Service
         loadCloudinaryImageWithGlide(publicId, folder, imageView, null);
     }
 
+    public static void loadCloudinaryImageWithGlideCircle(String publicId, String folder, ImageView imageView) {
+        loadCloudinaryImageWithGlideCircle(publicId, folder, imageView, null);
+    }
+
     //  có callback để biết load ảnh thành công hay thất bại.
     // Dùng cho Avatar — nếu user chưa từng upload, Cloudinary trả lỗi 404,
     // lúc đó callback.onError() được gọi để hiện lại chữ cái viết tắt thay vì icon lỗi.
@@ -85,6 +89,42 @@ public class Cloud_Service
                 .placeholder(android.R.drawable.ic_menu_gallery)
                 .error(android.R.drawable.ic_dialog_alert)
                 .centerCrop()
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        if (callback != null) callback.onError();
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        if (callback != null) callback.onSuccess();
+                        return false;
+                    }
+                })
+                .into(imageView);
+    }
+
+    public static void loadCloudinaryImageWithGlideCircle(String publicId, String folder, ImageView imageView, ImageLoadCallback callback) {
+        String sanitizedName = publicId.replace(" ", "_");
+        String fullPublicId =  sanitizedName;
+
+        // 🔥 SỬA DÒNG NÀY: Thêm .format("jpg") vào trước chữ .generate()
+        String imageUrl = MediaManager.get().url()
+                .secure(true)
+                .format("jpg")
+                .generate(fullPublicId);
+
+        // Giữ nguyên đoạn Log cũ để kiểm tra nếu muốn
+        Log.d("CHECK_NAME", "Link URL cuối cùng: " + imageUrl);
+
+        // gắn listener để bắt sự kiện thành công/thất bại,
+        // trả về false ở cả 2 nhánh để Glide vẫn tự xử lý ảnh như bình thường (không đổi hành vi cũ)
+        Glide.with(imageView.getContext())
+                .load(imageUrl)
+                .placeholder(android.R.drawable.ic_menu_gallery)
+                .error(android.R.drawable.ic_dialog_alert)
+                .circleCrop()
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
