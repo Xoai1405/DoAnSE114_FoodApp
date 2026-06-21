@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Foods implements Serializable {
     private int CategoryID;
     private boolean BestFood;
-    private int ID;
+    private int Id;
     private String Description;
     private String ImagePath;
     private String LocationID;
@@ -42,11 +42,11 @@ public class Foods implements Serializable {
     }
 
     public int getID() {
-        return ID;
+        return Id;
     }
 
     public void setID(int ID) {
-        this.ID = ID;
+        this.Id = ID;
     }
 
     public String getDescription() {

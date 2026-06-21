@@ -1,6 +1,10 @@
 package com.example.myfoodapp.Activity;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.myfoodapp.Fragment.ProfileFragment;
@@ -12,9 +16,21 @@ import com.example.myfoodapp.Fragment.FavoriteFragment;
 import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.ActivityDashboardBinding;
 
+import java.util.Set;
+
+import Helper.CartManager;
+
 public class DashboardActivity extends BaseActivity {
 
     private ActivityDashboardBinding binding;
+
+    private final homeFragment homeFragment = new homeFragment();
+    private final CartFragment cartFragment = new CartFragment();
+    private final DealFragment dealFragment = new DealFragment();
+    private final FavoriteFragment favoriteFragment = new FavoriteFragment();
+    private final ProfileFragment profileFragment = new ProfileFragment();
+
+    private Fragment activeFragment = homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +47,8 @@ public class DashboardActivity extends BaseActivity {
 
         // Gọi hàm bắt sự kiện click cho các nút menu
         setVariable();
+
+        SetUpData();
     }
 
     private void setVariable() {
@@ -39,8 +57,15 @@ public class DashboardActivity extends BaseActivity {
         // Bấm nút Home -> Tạo mới và load lại màn hình Home
         binding.HomeBtn.setOnClickListener(v -> loadNewFragment(new homeFragment()));
 
-        // Bấm nút Giỏ hàng -> Tạo mới và load lại màn hình Giỏ hàng
-        binding.CartBtn.setOnClickListener(v -> loadNewFragment(new CartFragment()));
+        // Bấm nút Giỏ hàng -> Hiện màn hình Giỏ hàng
+        binding.CartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cartFragment.Reload();
+                switchFragment(cartFragment);
+            }
+
+        });
 
         // Bấm nút Khuyến mãi -> Tạo mới và load lại màn hình Deal
         binding.DealBtn.setOnClickListener(v -> loadNewFragment(new DealFragment()));
@@ -58,4 +83,18 @@ public class DashboardActivity extends BaseActivity {
                 .replace(R.id.fragment_container, targetFragment)
                 .commit();
     }
+
+    private void SetUpData()
+    {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null)
+        {
+            if(CartManager.getInstance() != null)
+            {
+                CartManager.getInstance().initCartData(currentUser.getUid());
+                //Toast.makeText( DashboardActivity.this,"Cart đã lấy được id thành công " + currentUser.getUid() , Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
 }

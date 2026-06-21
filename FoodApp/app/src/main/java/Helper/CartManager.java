@@ -84,18 +84,37 @@ public class CartManager {
         syncWithFirebase();
     }
 
+    public void removeFromCart(int foodId) {
+        CartItem itemToRemove = null;
+
+        // 1. Tìm xem món cần xóa đang nằm ở đâu trong danh sách gốc (cartItems) trên RAM
+        for (CartItem item : cartItems) {
+            if (item.getFoodID() == foodId) {
+                itemToRemove = item;
+                break;
+            }
+        }
+
+        // 2. Nếu tìm thấy thì tiến hành xóa sạch khỏi RAM và đồng bộ lên Firebase
+        if (itemToRemove != null) {
+            cartItems.remove(itemToRemove);
+            syncWithFirebase(); // Đẩy list mới đã xóa món lên Firebase luôn
+            Log.d("CartManager", "Đã xóa món ID " + foodId + " khỏi CartManager và Firebase.");
+        }
+    }
+
     public List<CartItem> getCartItems() {
         return cartItems;
     }
 
     public double getTotalFee()
     {
-        double total = 0;
+        double total = 0.0;
         for (CartItem item : cartItems)
         {
             if (item.getFoodDetails() != null)
             {
-                total = total + ( Math.round(item.getFoodDetails().getPrice() * item.getQuantity() * 100)/ 100);
+                total = total + ( Math.round(item.getFoodDetails().getPrice() * item.getQuantity() * 100.0)/ 100.0);
             }
 
         }

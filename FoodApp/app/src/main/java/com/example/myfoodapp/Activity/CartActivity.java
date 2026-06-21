@@ -25,6 +25,24 @@ public class CartActivity extends AppCompatActivity {
     private ManagmentCart managementCart;
     private double Subtotal;
 
+    private Voucher selectedVoucher = null;
+    private double discount = 0.0;
+
+    private final ActivityResultLauncher<Intent> voucherLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    selectedVoucher = (Voucher) result.getData().getSerializableExtra("selectedVoucher");
+                    if (selectedVoucher != null) {
+                        //binding.selectedVoucherTxt.setText(selectedVoucher.getDescription());
+                        //binding.selectedVoucherTxt.setTextColor(ContextCompat.getColor(this, R.color.red));
+
+                        calculatedCart();
+                        SetUI();
+                    }
+                }
+            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +55,7 @@ public class CartActivity extends AppCompatActivity {
             return insets;
         });
 
-        Init();
+        //Init();
         setVariable();
         calculatedCart();
     }
@@ -64,7 +82,7 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    private void Init() {
+    /*private void Init() {
         managementCart = new ManagmentCart(this);
 
         if (managementCart.getListCart().isEmpty()) {
@@ -80,5 +98,23 @@ public class CartActivity extends AppCompatActivity {
 
         adapter = new CartAdapter(managementCart.getListCart(), CartActivity.this, () -> calculatedCart());
         binding.CartView.setAdapter(adapter);
+    }*/
+
+    private void SetUI() {
+        binding.SubtotalText.setText("$" + Subtotal);
+        binding.DeliveryText.setText("$" + DeliveryFee);
+        binding.TaxText.setText("$" + TotalTax);
+        binding.TotalText.setText("$" + TotalMoney);
+
+        if (selectedVoucher != null) {
+            binding.discountLabel.setVisibility(View.VISIBLE);
+            binding.discountTxt.setVisibility(View.VISIBLE);
+            binding.discountTxt.setText("-$" + Math.round(discount * 100.0) / 100.0);
+        } else {
+            //binding.selectedVoucherTxt.setText("Select voucher");
+            //binding.selectedVoucherTxt.setTextColor(ContextCompat.getColor(this, R.color.black));
+            binding.discountLabel.setVisibility(View.GONE);
+            binding.discountTxt.setVisibility(View.GONE);
+        }
     }
 }

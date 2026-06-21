@@ -13,6 +13,11 @@ public class CartItem {
         foodID = id;
         quantity = quan;
     }
+
+    public CartItem()
+    {
+
+    }
     public int getFoodID()
     {
         return  foodID;

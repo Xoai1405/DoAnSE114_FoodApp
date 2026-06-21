@@ -9,7 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import Domain.CartItem;
 import Domain.Foods;
+import Helper.CartManager;
 import Helper.ChangeNumberItemsListener;
 import Helper.Cloud_Service;
 import Helper.ManagmentCart;
@@ -17,19 +20,17 @@ import Helper.ManagmentCart;
 import com.example.myfoodapp.Activity.CartActivity;
 import com.example.myfoodapp.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
 
-    private ArrayList<Foods> list;
-    private ManagmentCart managmentCart;
+    private List<CartItem> list;
 
     private ChangeNumberItemsListener changeNumberItemsListener;
 
-    public CartAdapter(ArrayList<Foods> list, Context context, ChangeNumberItemsListener listener)
+    public CartAdapter(List<CartItem> list, ChangeNumberItemsListener listener)
     {
         this.list = list;
-        managmentCart = new ManagmentCart(context);
         this.changeNumberItemsListener = listener;
     }
 
@@ -42,33 +43,49 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
 
     @Override
     public void onBindViewHolder(@NonNull CartAdapter.viewholder holder, int position) {
-        holder.FoodTitle.setText(list.get(position).getTitle());
-        double price = list.get(position).getPrice();
+        CartItem currentItem = list.get(position);
+        holder.FoodTitle.setText(list.get(position).getFoodDetails().getTitle());
+        double price = list.get(position).getFoodDetails().getPrice();
         holder.FoodDefaultPrice.setText("$" + price);
-        int numb = list.get(position).getNumberInCart();
+        int numb = list.get(position).getQuantity();
         holder.CurrentFoodNumber.setText("" + numb);
         holder.FoodTotalPrice.setText("$" + Math.round(numb * price*100.0)/100.0);
-        Cloud_Service.loadCloudinaryImageWithGlide(list.get(position).getTitle(), holder.FoodAvatar);
+        Cloud_Service.loadCloudinaryImageWithGlide(list.get(position).getFoodDetails().getTitle(), holder.FoodAvatar);
         holder.plusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                managmentCart.plusNumberItem(list, position, () ->
-                        {
-                            notifyDataSetChanged();
-                            changeNumberItemsListener.change();
-                        }
-                        );
+                CartManager.getInstance().addToCart(currentItem.getFoodID(), 1);
+
+                notifyItemChanged(position); // Chỉ cập nhật đúng dòng này để mượt mà hơn notifyDataSetChanged()
+
+                if (changeNumberItemsListener != null) {
+                    changeNumberItemsListener.change();
+                }
             }
         });
         holder.minusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                managmentCart.minusNumberItem(list, position, () ->
-                        {
-                            notifyDataSetChanged();
-                            changeNumberItemsListener.change();
-                        }
-                );
+                if (currentItem.getQuantity() > 1) {
+                    CartManager.getInstance().addToCart(currentItem.getFoodID(), -1);
+
+                    notifyItemChanged(position);
+
+                    if (changeNumberItemsListener != null) {
+                        changeNumberItemsListener.change();
+                    }
+                } else {
+                    CartManager.getInstance().addToCart(currentItem.getFoodID(), -1);
+
+                    list.remove(position);
+                    CartManager.getInstance().removeFromCart(currentItem.getFoodID());
+                    notifyItemRemoved(position);
+                    notifyItemRangeChanged(position, list.size());
+
+                    if (changeNumberItemsListener != null) {
+                        changeNumberItemsListener.change();
+                    }
+                }
             }
         });
     }

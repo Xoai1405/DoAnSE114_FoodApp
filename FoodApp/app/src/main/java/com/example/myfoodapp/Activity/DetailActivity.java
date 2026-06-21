@@ -2,6 +2,7 @@ package com.example.myfoodapp.Activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.ActivityDetailBinding;
 
 import Domain.Foods;
+import Helper.CartManager;
 import Helper.Cloud_Service;
 import Helper.ManagmentCart;
 
@@ -23,7 +25,6 @@ public class DetailActivity extends BaseActivity {
     private Foods object;
     private int num = 1;
 
-    private ManagmentCart managmentCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +44,6 @@ public class DetailActivity extends BaseActivity {
 
     private void setVariable() {
 
-        managmentCart = new ManagmentCart(this);
 
         binding.backBtn.setOnClickListener(v -> finish());
 
@@ -79,8 +79,9 @@ public class DetailActivity extends BaseActivity {
         binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                object.setNumberInCart(num);
-                managmentCart.insertFood(object);
+                //Toast.makeText(DetailActivity.this, "ID Food: " + object.getID(), Toast.LENGTH_SHORT).show();
+                CartManager.getInstance().addToCart(object.getID(), num);
+                Toast.makeText(DetailActivity.this, "Added this product to your cart.", Toast.LENGTH_SHORT).show();
             }
         });
     }
