@@ -37,7 +37,6 @@ public class BaseActivity extends AppCompatActivity {
     private void initConfigCloudinary() {
         try {
             Map<String, String> config = new HashMap<>();
-            // Thay bằng Tên Cloud của bạn trên Dashboard Cloudinary
             config.put("cloud_name", "dqehmxzq6");
 
             MediaManager.init(this, config);

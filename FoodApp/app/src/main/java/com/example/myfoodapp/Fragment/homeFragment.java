@@ -238,9 +238,29 @@ public class homeFragment extends BaseFragment {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null)
         {
-            String email = currentUser.getEmail();
-            String username = email != null ? email.split("@")[0] : "User";
-            binding.UserText.setText(username);
+            database.getReference("Users").child(currentUser.getUid()).child("userName")
+                    .addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            // Kiểm tra an toàn: nếu fragment đã bị đóng thì không chạy tiếp để tránh sập app
+                            if (binding == null) return;
+
+                            if (snapshot.exists()) {
+                                // Nếu tìm thấy tên đã lưu trên Firebase, lấy ra và đặt vào TextView
+                                String username = snapshot.getValue(String.class);
+                                binding.UserText.setText(username);
+                            } else {
+                                // Nếu trên Firebase chưa có tên (User mới), dùng tạm email cắt chuỗi làm mặc định
+                                String email = currentUser.getEmail();
+                                String username = email != null ? email.split("@")[0] : "User";
+                                binding.UserText.setText(username);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
         }
     }
 }

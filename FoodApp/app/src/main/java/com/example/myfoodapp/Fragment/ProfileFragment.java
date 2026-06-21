@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -180,7 +181,6 @@ public class ProfileFragment extends BaseFragment {
             Toast.makeText(getContext(), "Please enter a display name", Toast.LENGTH_SHORT).show();
             return;
         }
-
         binding.saveBtn.setEnabled(false);
 
         Map<String, Object> updates = new HashMap<>();
