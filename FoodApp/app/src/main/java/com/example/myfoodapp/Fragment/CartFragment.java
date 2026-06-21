@@ -63,6 +63,21 @@ public class CartFragment extends BaseFragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            // hidden = false nghĩa là Fragment này vừa được "bật lên" (hiển thị cho người dùng thấy)
+
+            List<CartItem> localList = CartManager.getInstance().getCartItems();
+            checkEmptyCart(localList);
+            if (localList != null && !localList.isEmpty()) {
+                calculatedCart();
+                SetUpUI();
+            }
+        }
+    }
+
     private void setVariable()
     {
         binding.EmptyBtn.setOnClickListener(new View.OnClickListener() {

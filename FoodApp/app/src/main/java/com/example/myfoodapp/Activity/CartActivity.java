@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -17,6 +19,7 @@ import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.ActivityCartBinding;
 
 import Adapter.CartAdapter;
+import Domain.Voucher;
 import Helper.ManagmentCart;
 
 public class CartActivity extends AppCompatActivity {
@@ -37,8 +40,8 @@ public class CartActivity extends AppCompatActivity {
                         //binding.selectedVoucherTxt.setText(selectedVoucher.getDescription());
                         //binding.selectedVoucherTxt.setTextColor(ContextCompat.getColor(this, R.color.red));
 
-                        calculatedCart();
-                        SetUI();
+                        //calculatedCart();
+                        //SetUI();
                     }
                 }
             });
@@ -56,11 +59,11 @@ public class CartActivity extends AppCompatActivity {
         });
 
         //Init();
-        setVariable();
-        calculatedCart();
+        //setVariable();
+        //calculatedCart();
     }
 
-    private void calculatedCart() {
+    /*private void calculatedCart() {
         Subtotal = Math.round(managementCart.getTotalFee() * 100.0) / 100.0;
         binding.SubtotalText.setText("$" + Subtotal);
 
@@ -68,9 +71,9 @@ public class CartActivity extends AppCompatActivity {
             binding.CartScrollview.setVisibility(View.GONE);
             binding.emptyCartText.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 
-    private void setVariable() {
+    /*private void setVariable() {
         binding.Backbtn.setOnClickListener(v -> finish());
 
         binding.checkoutBtn.setOnClickListener(v -> {
@@ -80,7 +83,7 @@ public class CartActivity extends AppCompatActivity {
                 Toast.makeText(CartActivity.this, "Your cart is empty!", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+    }*/
 
     /*private void Init() {
         managementCart = new ManagmentCart(this);
@@ -100,7 +103,7 @@ public class CartActivity extends AppCompatActivity {
         binding.CartView.setAdapter(adapter);
     }*/
 
-    private void SetUI() {
+    /*private void SetUI() {
         binding.SubtotalText.setText("$" + Subtotal);
         binding.DeliveryText.setText("$" + DeliveryFee);
         binding.TaxText.setText("$" + TotalTax);
@@ -116,5 +119,5 @@ public class CartActivity extends AppCompatActivity {
             binding.discountLabel.setVisibility(View.GONE);
             binding.discountTxt.setVisibility(View.GONE);
         }
-    }
+    }*/
 }
