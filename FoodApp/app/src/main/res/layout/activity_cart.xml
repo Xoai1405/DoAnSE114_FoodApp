@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F5"
     tools:context=".Activity.CartActivity">
-
 
     <ScrollView
         android:id="@+id/CartScrollview"
@@ -23,7 +23,7 @@
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cart"
+                android:text="My Cart"
                 android:textAlignment="center"
                 android:textColor="@color/blue_grey"
                 android:textSize="24sp"
@@ -32,56 +32,14 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/CartView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/voucherSection"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/grey_background"
-                android:padding="12dp">
+                android:layout_marginTop="16dp" />
 
-                <ImageView
-                    android:id="@+id/voucherIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/red_button_background"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="#EE4D2D" />
-
-                <TextView
-                    android:id="@+id/selectedVoucherTxt"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="Chọn mã khuyến mãi"
-                    android:textColor="#333333"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/arrowIcon"
-                    app:layout_constraintStart_toEndOf="@id/voucherIcon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/arrowIcon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:rotation="180"
-                    android:src="@drawable/arrow"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="24dp"
                 android:text="Order Summary"
                 android:textColor="@color/blue_grey"
                 android:textSize="18sp"
@@ -90,142 +48,44 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/grey_background">
+                android:layout_marginTop="12dp"
+                android:background="@drawable/grey_background"
+                android:padding="16dp">
 
                 <TextView
                     android:id="@+id/textView13"
-                    style="@style/NormalTextStyle"
+                    style="@style/BoldTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
                     android:text="Subtotal"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView14"
-                    style="@style/NormalTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Delivery"
-                    app:layout_constraintStart_toStartOf="@+id/textView13"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
-
-                <TextView
-                    android:id="@+id/textView16"
-                    style="@style/NormalTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Total Tax"
-                    app:layout_constraintStart_toStartOf="@+id/textView14"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-                <TextView
-                    android:id="@+id/discountLabel"
-                    style="@style/NormalTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Discount"
-                    android:textColor="#EE4D2D"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="@+id/textView16"
-                    app:layout_constraintTop_toBottomOf="@+id/textView16" />
-
-                <TextView
                     android:id="@+id/SubtotalText"
-                    style="@style/NormalTextStyle"
+                    style="@style/BoldTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:text="$"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView13" />
-
-                <TextView
-                    android:id="@+id/DeliveryText"
-                    style="@style/NormalTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="$"
-                    app:layout_constraintEnd_toEndOf="@+id/SubtotalText"
-                    app:layout_constraintTop_toBottomOf="@+id/SubtotalText" />
-
-                <TextView
-                    android:id="@+id/TaxText"
-                    style="@style/NormalTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="$"
-                    app:layout_constraintEnd_toEndOf="@+id/DeliveryText"
-                    app:layout_constraintTop_toBottomOf="@+id/DeliveryText" />
-
-                <TextView
-                    android:id="@+id/discountTxt"
-                    style="@style/NormalTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="-$0.0"
+                    android:text="$0.0"
                     android:textColor="#EE4D2D"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="@+id/TaxText"
-                    app:layout_constraintTop_toBottomOf="@+id/TaxText" />
-
-                <View
-                    android:id="@+id/view4"
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="#ABABAB"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/discountLabel" />
-
-                <TextView
-                    android:id="@+id/textView22"
-                    style="@style/BoldTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="Total"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/textView16"
-                    app:layout_constraintTop_toBottomOf="@+id/view4" />
-
-                <TextView
-                    android:id="@+id/TotalText"
-                    style="@style/BoldTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:text="$"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/TaxText"
-                    app:layout_constraintTop_toBottomOf="@+id/view4" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/Button"
+                android:id="@+id/checkoutBtn"
                 style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="32dp"
                 android:background="@drawable/red_button_background"
-                android:text="Place order"
+                android:text="Proceed to Checkout"
                 android:textColor="@color/white"
-                android:textSize="18sp"></androidx.appcompat.widget.AppCompatButton>
+                android:textSize="18sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </ScrollView>
 
@@ -244,13 +104,13 @@
         android:id="@+id/emptyCartText"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Your cart is currently empty. Select some items to see your cart."
+        android:text="Your cart is currently empty."
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/CartScrollview"
-        app:layout_constraintStart_toStartOf="@+id/CartScrollview"
-        app:layout_constraintTop_toTopOf="@+id/CartScrollview" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
