@@ -1,5 +1,6 @@
 package com.example.myfoodapp.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.myfoodapp.Activity.CheckoutActivity;
 import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.FragmentCartBinding;
 import com.google.firebase.database.DataSnapshot;
@@ -88,6 +90,13 @@ public class CartFragment extends BaseFragment {
                 if (adapter != null)  adapter.notifyDataSetChanged();
                 List<CartItem> emptyList = CartManager.getInstance().getCartItems();
                 checkEmptyCart(emptyList);
+            }
+        });
+        binding.PlaceOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CheckoutActivity.class);
+                startActivity(intent);
             }
         });
     }

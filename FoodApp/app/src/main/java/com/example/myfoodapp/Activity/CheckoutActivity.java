@@ -14,6 +14,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myfoodapp.R;
 import com.example.myfoodapp.databinding.ActivityCheckoutBinding;
@@ -26,14 +28,17 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jspecify.annotations.NonNull;
 
+import java.util.List;
+
+import Adapter.CheckoutAdapter;
+import Domain.CartItem;
 import Domain.Voucher;
+import Helper.CartManager;
 import Helper.ManagmentCart;
 
-public class CheckoutActivity extends AppCompatActivity {
+public class CheckoutActivity extends BaseActivity {
     private ActivityCheckoutBinding binding;
     private ManagmentCart managementCart;
-    private FirebaseDatabase database;
-    private FirebaseAuth auth;
     private double TaxPercent = 0.02f;
     private double DeliveryFee = 10.0f;
     private double TotalTax;
@@ -68,9 +73,8 @@ public class CheckoutActivity extends AppCompatActivity {
         });
 
         managementCart = new ManagmentCart(this);
-        database = FirebaseDatabase.getInstance();
-        auth = FirebaseAuth.getInstance();
 
+        InitList();
         setupSpinner();
         setupClickListeners();
         calculateTotals();
@@ -85,16 +89,16 @@ public class CheckoutActivity extends AppCompatActivity {
     }
 
     private void loadUserProfile() {
-        if (auth.getCurrentUser() == null) return;
-        String uid = auth.getCurrentUser().getUid();
+        if (mAuth.getCurrentUser() == null) return;
+        String uid = mAuth.getCurrentUser().getUid();
         DatabaseReference userRef = database.getReference("Users").child(uid);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    String name = snapshot.child("name").getValue(String.class);
-                    String phone = snapshot.child("phone").getValue(String.class);
+                    String name = snapshot.child("userName").getValue(String.class);
+                    String phone = snapshot.child("userPhoneNumber").getValue(String.class);
 
                     if (name == null || name.isEmpty()) name = "User";
                     if (phone == null || phone.isEmpty()) phone = "No Phone Number";
@@ -119,7 +123,6 @@ public class CheckoutActivity extends AppCompatActivity {
 
         binding.placeOrderBtn.setOnClickListener(v -> {
             Toast.makeText(CheckoutActivity.this, "Order Placed Successfully!", Toast.LENGTH_SHORT).show();
-            managementCart.getListCart().clear();
             Intent intent = new Intent(CheckoutActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -127,8 +130,17 @@ public class CheckoutActivity extends AppCompatActivity {
         });
     }
 
+    private void InitList()
+    {
+        List<CartItem> list = CartManager.getInstance().getCartItems();
+        LinearLayoutManager layout = new LinearLayoutManager(CheckoutActivity.this, LinearLayoutManager.VERTICAL, false);
+        RecyclerView.Adapter adapter = new CheckoutAdapter(list);
+        binding.CheckOutView.setLayoutManager(layout);
+        binding.CheckOutView.setAdapter(adapter);
+    }
+
     private void calculateTotals() {
-        Subtotal = Math.round(managementCart.getTotalFee() * 100.0) / 100.0;
+        Subtotal = Math.round(CartManager.getInstance().getTotalFee() * 100.0) / 100.0;
         TotalTax = Math.round(TaxPercent * Subtotal * 100.0) / 100.0;
         discount = 0.0;
 
