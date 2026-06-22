@@ -66,7 +66,6 @@ public class DashboardActivity extends BaseActivity {
         binding.CartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cartFragment.Reload();
                 switchFragment(cartFragment);
             }
 

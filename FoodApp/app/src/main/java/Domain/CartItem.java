@@ -5,7 +5,9 @@ public class CartItem {
     private int foodID;
     private int quantity;
 
-    private Foods foodDetail;
+
+    @Exclude
+    private Foods foodDetails;
 
 
     public CartItem(int id, int quan)
@@ -40,11 +42,11 @@ public class CartItem {
 
     @Exclude
     public Foods getFoodDetails() {
-        return foodDetail;
+        return foodDetails;
     }
 
     public void setFoodDetails(Foods foodDetails) {
-        this.foodDetail = foodDetails;
+        this.foodDetails = foodDetails;
     }
 
 }

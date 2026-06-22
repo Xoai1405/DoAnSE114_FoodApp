@@ -18,7 +18,6 @@ public class VoucherActivity extends BaseActivity {
     ActivityVoucherBinding binding;
     private ArrayList<Voucher> voucherList = new ArrayList<>();
     private VoucherAdapter adapter;
-    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +25,6 @@ public class VoucherActivity extends BaseActivity {
         binding = ActivityVoucherBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        auth = FirebaseAuth.getInstance();
         binding.backBtn.setOnClickListener(v -> finish());
 
         setupRecyclerView();
@@ -40,8 +38,8 @@ public class VoucherActivity extends BaseActivity {
     }
 
     private void loadUserVouchers() {
-        if (auth.getCurrentUser() == null) return;
-        String currentUserId = auth.getCurrentUser().getUid();
+        if (mAuth.getCurrentUser() == null) return;
+        String currentUserId = mAuth.getCurrentUser().getUid();
 
         binding.progressBar.setVisibility(View.VISIBLE);
         DatabaseReference userVouchRef = database.getReference("UserVouchers");
