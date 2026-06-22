@@ -67,7 +67,7 @@
 
                 app:srcCompat="@drawable/star" />
 
-            <ImageView
+<!--            <ImageView
                 android:id="@+id/favBtn"
                 android:layout_width="30dp"
                 android:layout_height="32dp"
@@ -78,7 +78,7 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView6"
                 app:layout_constraintTop_toBottomOf="@+id/titleTxt"
                 app:layout_constraintVertical_bias="0.88"
-                android:src="@drawable/heart_seletor" />
+                android:src="@drawable/heart_seletor" />-->
 
             <TextView
                 android:id="@+id/textView15"
