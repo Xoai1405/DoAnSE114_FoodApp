@@ -57,8 +57,20 @@ Mở Terminal hoặc Git Bash, thực hiện lệnh clone kho lưu trữ:
 git clone https://github.com/xoai1405/doanse114_foodapp.git
 
 
-**Bước 2: Thiết lập file cấu hình Firebase
-Cung cấp tệp google-services.json hợp lệ và đặt nó ngay bên trong thư mục app/ của dự án. Nếu không có tệp này, tiến trình build Gradle sẽ báo lỗi vì thiếu plugin Google Services.
+**Bước 2: Tích hợp tệp cấu hình Firebase (google-services.json)
+
+Truy cập vào liên kết Google Drive của dự án để tải xuống tệp cấu hình: https://drive.google.com/drive/folders/1NQvvbnQXdD04SAu-Rkn7_3jP1_c7poAY?usp=drive_link.
+
+Di chuyển/Sao chép tệp google-services.json vừa tải về vào đúng thư mục mẫu sau:
+DoAnSE114_FoodApp/FoodApp/
+Lưu ý quan trọng về Bảo mật:
+
+Tệp google-services.json chứa các thông tin cực kỳ nhạy cảm của dự án backend bao gồm: API Keys, Project ID, Client IDs, và Database URLs.
+
+Nếu tệp này bị lộ công khai lên các kho lưu trữ công cộng (như GitHub Public), kẻ xấu có thể lợi dụng các thông số này để truy cập trái phép vào Database, gửi yêu cầu ảo làm cạn kiệt tài nguyên đám mây, đánh cắp dữ liệu người dùng, hoặc phát sinh chi phí dịch vụ Firebase ngoài ý muốn.
+
+Do đó, tệp này luôn được thêm vào .gitignore để tránh bị commit lên GitHub. Thành viên trong nhóm hoặc hội đồng chấm bài bắt buộc phải tải tệp thủ công từ link Drive nội bộ bên trên và tự tích hợp vào thư mục mã nguồn trước khi biên dịch.
+
 
 **Bước 3: Đồng bộ hóa dự án (Sync Gradle)
 
@@ -67,6 +79,8 @@ Mở thư mục gốc của dự án bằng phần mềm Android Studio.
 Hệ thống sẽ tự động kích hoạt tiến trình tải thư viện, hoặc bạn có thể chủ động nhấn vào File > Sync Project with Gradle Files.
 
 Chờ đợi trong vài phút để Gradle kết nối Internet, tải xuống toàn bộ thư viện (Firebase, Glide, Fresco,...) và hoàn tất quá trình lập chỉ mục.
+
+
 
 **Bước 4: Khởi chạy ứng dụng
 
