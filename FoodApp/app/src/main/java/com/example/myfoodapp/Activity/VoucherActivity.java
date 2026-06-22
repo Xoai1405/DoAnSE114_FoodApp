@@ -48,7 +48,8 @@ public class VoucherActivity extends BaseActivity {
         userVouchRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                voucherList.clear();
+                voucherList.clear(); // Xóa list cũ trước khi nạp mới
+
                 if (snapshot.exists()) {
                     ArrayList<String> userVoucherIds = new ArrayList<>();
                     for (DataSnapshot issue : snapshot.getChildren()) {
@@ -62,8 +63,10 @@ public class VoucherActivity extends BaseActivity {
                         }
                     }
 
+                    // SỬA LỖI 1: Nếu user không có voucher nào, tắt progress và cập nhật giao diện trống ngay
                     if (userVoucherIds.isEmpty()) {
                         binding.progressBar.setVisibility(View.GONE);
+                        checkEmptyState();
                         return;
                     }
 
@@ -79,23 +82,38 @@ public class VoucherActivity extends BaseActivity {
                                 }
                                 adapter.notifyDataSetChanged();
                             }
+                            // Đưa ra ngoài vòng if(snapVouch.exists) để luôn kiểm tra giao diện và tắt progress
                             binding.progressBar.setVisibility(View.GONE);
+                            checkEmptyState();
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             binding.progressBar.setVisibility(View.GONE);
+                            checkEmptyState();
                         }
                     });
                 } else {
+                    // SỬA LỖI 2: Node UserVouchers hoàn toàn trống trên DB
                     binding.progressBar.setVisibility(View.GONE);
+                    checkEmptyState();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 binding.progressBar.setVisibility(View.GONE);
+                checkEmptyState();
             }
         });
+    }
+
+    // Hàm hỗ trợ kiểm tra danh sách độc lập, viết rất gọn và không bị sót trường hợp
+    private void checkEmptyState() {
+        if (voucherList.isEmpty()) {
+            binding.emptyVoucherText.setVisibility(View.VISIBLE);
+        } else {
+            binding.emptyVoucherText.setVisibility(View.GONE);
+        }
     }
 }

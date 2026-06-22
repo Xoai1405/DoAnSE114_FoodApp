@@ -120,6 +120,8 @@ public class OrderDetailActivity extends BaseActivity {
 
                     binding.AddressDetailText.setText(address);
                     binding.NameAddressDetailText.setText(name + " | " + phone);
+                    binding.OrderDateText.setText(order.getCreatedAt());
+                    binding.OrderIdText.setText(order.getId());
                 }
             }
 

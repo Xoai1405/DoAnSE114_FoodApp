@@ -60,25 +60,76 @@ public class DashboardActivity extends BaseActivity {
         // CỨ BẤM NÚT LÀ KHỞI TẠO NEW FRAGMENT MỚI -> ÉP CHẠY LẠI LOGIC LOAD DATABASE 100%
 
         // Bấm nút Home -> Tạo mới và load lại màn hình Home
-        binding.HomeBtn.setOnClickListener(v -> switchFragment(new homeFragment()));
+        binding.HomeBtn.setOnClickListener(v ->
+        {
+            switchFragment(new homeFragment());
+            setBackground(2);
+        });
 
         // Bấm nút Giỏ hàng -> Hiện màn hình Giỏ hàng
         binding.CartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switchFragment(cartFragment);
+                setBackground(0);
             }
 
         });
 
         // Bấm nút Khuyến mãi -> Tạo mới và load lại màn hình Deal
-        binding.DealBtn.setOnClickListener(v -> switchFragment(new DealFragment()));
+        binding.DealBtn.setOnClickListener(v ->
+        {
+            switchFragment(new DealFragment());
+            setBackground(1);
+        });
 
         // Bấm nút Yêu thích -> Tạo mới và load lại màn hình Favorite (Quét lại Firebase ngay lập tức)
-        binding.FavoriteBtn.setOnClickListener(v -> switchFragment(new FavoriteFragment()));
+        binding.FavoriteBtn.setOnClickListener(v ->
+        {
+            switchFragment(new FavoriteFragment());
+            setBackground(3);
+        });
 
         // Bấm nút Tài khoản -> Tạo mới và load lại màn hình Profile
-        binding.UserBtn.setOnClickListener(v ->switchFragment(new ProfileFragment()));
+        binding.UserBtn.setOnClickListener(v ->
+        {
+            switchFragment(new ProfileFragment());
+            setBackground(4);
+        });
+    }
+
+    private void setBackground(int id)
+    {
+        resetBackground();
+        switch (id)
+        {
+            case 0:
+                binding.CartBtn.setBackgroundResource(R.drawable.bg_active_tab);
+                break;
+            case 1:
+                binding.DealBtn.setBackgroundResource(R.drawable.bg_active_tab);
+                break;
+            case 2:
+                binding.HomeBtn.setBackgroundResource(R.drawable.bg_active_tab);
+                break;
+            case 3:
+                binding.FavoriteBtn.setBackgroundResource(R.drawable.bg_active_tab);
+                break;
+            case 4:
+                binding.UserBtn.setBackgroundResource(R.drawable.bg_active_tab);
+                break;
+        }
+
+    }
+
+    private void resetBackground()
+    {
+        binding.UserBtn.setBackgroundResource(0);
+        binding.FavoriteBtn.setBackgroundResource(0);
+        binding.CartBtn.setBackgroundResource(0);
+        binding.DealBtn.setBackgroundResource(0);
+        binding.HomeBtn.setBackgroundResource(0);
+
     }
 
     // HÀM THẦN THÁNH: Thay thế hoàn toàn Fragment cũ bằng Fragment mới tinh để kích hoạt reload dữ liệu

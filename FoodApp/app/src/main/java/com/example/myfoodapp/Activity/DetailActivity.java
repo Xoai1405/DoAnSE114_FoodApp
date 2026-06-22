@@ -116,7 +116,7 @@ public class DetailActivity extends BaseActivity {
                     // Nếu chưa thích -> Tiến hành THÍCH món ăn
                     favRef.setValue(true).addOnSuccessListener(aVoid -> {
                         binding.favBtn.setSelected(true); // Đổi màu trái tim sang đỏ
-                        Toast.makeText(DetailActivity.this, "Đã thêm vào yêu thích!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailActivity.this, "Added this product to your favorite list.", Toast.LENGTH_SHORT).show();
                     }).addOnFailureListener(e -> {
                         Toast.makeText(DetailActivity.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });
@@ -124,7 +124,7 @@ public class DetailActivity extends BaseActivity {
                     // Nếu đã thích rồi -> Tiến hành BỎ THÍCH món ăn
                     favRef.removeValue().addOnSuccessListener(aVoid -> {
                         binding.favBtn.setSelected(false); // Đổi màu trái tim về trắng
-                        Toast.makeText(DetailActivity.this, "Đã xóa khỏi yêu thích!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DetailActivity.this, "Remove this product from your favorite list.", Toast.LENGTH_SHORT).show();
                     }).addOnFailureListener(e -> {
                         Toast.makeText(DetailActivity.this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     });

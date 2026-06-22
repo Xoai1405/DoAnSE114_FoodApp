@@ -41,16 +41,22 @@ public class FavoriteFragment extends Fragment {
         binding = FragmentFavoriteBinding.inflate(inflater, container, false);
         database = FirebaseDatabase.getInstance();
 
-        // Load dữ liệu ban đầu
-        loadFavoriteFoods();
+
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        loadFavoriteFoods();
     }
 
     private void loadFavoriteFoods() {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            Toast.makeText(getActivity(), "Vui lòng đăng nhập!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Vui lòng đăng nhập!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -134,10 +140,12 @@ public class FavoriteFragment extends Fragment {
     private void toggleEmptyState(boolean isEmpty) {
         if (isEmpty) {
             binding.favoriteListView.setVisibility(View.GONE);
-            Toast.makeText(getActivity(), "Danh sách yêu thích trống!", Toast.LENGTH_SHORT).show();
+            binding.emptyFavoriteText.setVisibility(View.VISIBLE);
+            //Toast.makeText(getActivity(), "Danh sách yêu thích trống!", Toast.LENGTH_SHORT).show();
             // Nếu trong layout fragment_favorite của bạn có TextView báo trống, bạn có thể gán hiển thị ở đây
         } else {
             binding.favoriteListView.setVisibility(View.VISIBLE);
+            binding.emptyFavoriteText.setVisibility(View.GONE);
         }
     }
 
