@@ -53,7 +53,8 @@ public class VoucherActivity extends BaseActivity {
                     ArrayList<String> userVoucherIds = new ArrayList<>();
                     for (DataSnapshot issue : snapshot.getChildren()) {
                         String userIdOnDb = issue.child("userId").getValue(String.class);
-                        if (userIdOnDb != null && userIdOnDb.equals(currentUserId)) {
+                        String status = issue.child("status").getValue(String.class);
+                        if (userIdOnDb != null && userIdOnDb.equals(currentUserId) && "unused".equals(status)) {
                             String voucherId = issue.child("voucherId").getValue(String.class);
                             if (voucherId != null) {
                                 userVoucherIds.add(voucherId);
