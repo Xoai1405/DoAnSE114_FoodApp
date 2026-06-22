@@ -64,7 +64,7 @@ public class BestFoodsAdapter extends RecyclerView.Adapter<BestFoodsAdapter.View
         // ==========================================
         // KHU VỰC ĐÃ FIX: XỬ LÝ NÚT TRÁI TIM (FAVORITES)
         // ==========================================
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        /*FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             String currentUserID = currentUser.getUid();
 
@@ -124,7 +124,7 @@ public class BestFoodsAdapter extends RecyclerView.Adapter<BestFoodsAdapter.View
                     });
                 }
             });
-        }
+        }*/
     }
 
     @Override
@@ -133,7 +133,7 @@ public class BestFoodsAdapter extends RecyclerView.Adapter<BestFoodsAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView pic, favBtn;
+        ImageView pic;
         TextView titleTxt, priceTxt, starTxt, timeTxt;
 
         public ViewHolder(@NonNull View itemView) {
@@ -143,7 +143,6 @@ public class BestFoodsAdapter extends RecyclerView.Adapter<BestFoodsAdapter.View
             starTxt = itemView.findViewById(R.id.starTxt);
             timeTxt = itemView.findViewById(R.id.timeTxt);
             pic = itemView.findViewById(R.id.pic);
-            favBtn = itemView.findViewById(R.id.favBtn);
         }
     }
 }
