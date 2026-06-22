@@ -1,7 +1,7 @@
 package Domain;
 
 import com.google.firebase.database.Exclude;
-public class CartItem {
+public class CartItem implements java.io.Serializable {
     private int foodID;
     private int quantity;
 

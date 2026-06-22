@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyFoodApp">
         <activity
+            android:name=".Activity.OrderDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.CartActivity"
             android:exported="false" />
         <activity
@@ -45,8 +48,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.VoucherActivity" android:exported="false" />
-        <activity android:name=".Activity.CheckoutActivity" android:exported="false" />
+        <activity
+            android:name=".Activity.VoucherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activity.CheckoutActivity"
+            android:exported="false" />
         <activity
             android:name=".Activity.DashboardActivity"
             android:exported="false"

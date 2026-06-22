@@ -2,7 +2,7 @@ package Domain;
 
 import java.util.List;
 
-public class Order {
+public class Order implements java.io.Serializable {
     // Đổi toàn bộ tên biến về dạng camelCase chuẩn mã hóa JSON của Firebase
     private String id;
     private String userId;
