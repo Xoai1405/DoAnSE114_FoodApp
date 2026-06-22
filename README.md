@@ -1,87 +1,92 @@
-![alt text](https://www.uit.edu.vn/sites/vi/files/banner.png)
-   
-# MÔN HỌC: NHẬP MÔN ỨNG DỤNG DI ĐỘNG- SE114.Q22 
-# TÊN ĐỀ TÀI: ỨNG DỤNG ĐẶT ĐỒ ĂN ONLINE-CRAVECART
-## 1. THÔNG TIN NHÓM:
-### Tên nhóm: Nhóm 8
-### Thành viên nhóm:
-- Hà Gia Bảo – 24520150
-- Hà Tuấn Hùng – 24520584
-- Bùi Bá Bổng – 24520203
-- Phạm Đan Trường – 24521898
+# ỨNG DỤNG ĐẶT ĐỒ ĂN ONLINE - CRAVECART 
+
+Đây là kho lưu trữ mã nguồn của Ứng dụng đặt đồ ăn Online - CRAVECART, được phát triển trong khuôn khổ đồ án môn học Phát triển Ứng dụng Di động. Ứng dụng mang đến giải pháp đặt món ăn nhanh chóng, quản lý giỏ hàng và trải nghiệm người dùng mượt mà trên nền tảng Android.
+
+## 1. Yêu cầu hệ thống & Môi trường phát triển
+
+Để cài đặt và khởi chạy dự án một cách ổn định, môi trường máy tính của bạn cần đáp ứng các tiêu chuẩn sau:
+
+* **IDE:** Android Studio (các phiên bản mới hỗ trợ Gradle 8+)
+* **Java Development Kit (JDK):** Java 11 (Cấu hình đồng bộ trong `sourceCompatibility` và `targetCompatibility`)
+* **Ngôn ngữ lập trình:** Java
+* **Hệ thống Build:** Gradle sử dụng Kotlin DSL (`build.gradle.kts`)
+
+**Cấu hình Android SDK**
+
+| Thông số | Phiên bản | Ghi chú |
+| :--- | :--- | :--- |
+| **Compile SDK** | 36 | Phiên bản biên dịch mới nhất |
+| **Target SDK** | 36 | Phiên bản tối ưu hóa mục tiêu |
+| **Minimum SDK** | 24 | Hỗ trợ từ Android 7.0 (Nougat) trở lên |
+
+## 2. Cấu hình Dịch vụ Đám mây & Bảo mật
+
+Dự án này sử dụng hệ sinh thái Firebase và Cloudinary làm Backend-as-a-Service (BaaS). Để ứng dụng có thể kết nối với cơ sở dữ liệu và xác thực, bạn cần cấu hình các tệp tin dịch vụ:
+
+1. **Cấu hình Google Services (Firebase):**
+   * Đảm bảo bạn đã có tệp cấu hình `google-services.json` (có thể tải về từ Firebase Console của dự án).
+   * Sao chép và đặt tệp `google-services.json` vào bên trong thư mục `app/` của dự án.
+2. **Các dịch vụ cần được kích hoạt trên Firebase:**
+   * Firebase Authentication (Đăng nhập Email/Mật khẩu & Google Sign-In)
+   * Firebase Realtime Database & Cloud Firestore
+   * Firebase Cloud Storage
+3. **Cấu hình Cloudinary (Quản lý media):**
+   * Nếu bạn cấu hình Cloudinary URL hoặc thông tin tài khoản (Cloud name, API Key, API Secret) để upload ảnh, hãy chắc chắn cập nhật các thông số này trong tệp hằng số hoặc cấu hình nội bộ của Java.
+
+## 3. Kiến trúc & Các thư viện cốt lõi (Dependencies)
+
+Dự án được xây dựng với giao diện thân thiện, sử dụng `ViewBinding` và tích hợp các dịch vụ đám mây mạnh mẽ:
+
+* **User Interface (UI):** Cấu trúc giao diện bằng XML, sử dụng `ViewBinding` kết hợp hệ thống `Material Design`, `ConstraintLayout`, và `RecyclerView`.
+* **Backend & Cơ sở dữ liệu:**
+    * `Firebase Realtime Database` & `Firebase Firestore`: Lưu trữ và đồng bộ hóa dữ liệu trực tuyến (danh sách món ăn, chi tiết đơn hàng, người dùng).
+    * `Firebase Storage` & `Cloudinary`: Tối ưu hóa việc lưu trữ hình ảnh ứng dụng.
+* **Authentication (Xác thực):**
+    * Tích hợp `Firebase Auth` và `Google Sign-In` (`credentials`, `play-services-auth`) cho phép xác thực người dùng một cách an toàn.
+* **Image Loading:**
+    * Sử dụng đồng thời hai bộ thư viện tải ảnh hiệu suất cao: `Glide` (v4.16.0) và `Fresco` (v3.2.0) giúp xử lý mượt mà danh sách hình ảnh đồ ăn.
+* **Data Serialization:**
+    * Sử dụng `Gson` (v2.10.1) để dễ dàng chuyển đổi dữ liệu giữa dạng Object và chuỗi JSON.
+
+## 4. Hướng dẫn Cài đặt & Triển khai (Build & Run)
+
+Mọi thành viên hoặc người kiểm thử có thể khởi chạy dự án theo quy trình 4 bước sau:
+
+**Bước 1: Clone dự án và truy cập thư mục**
+Mở Terminal hoặc Git Bash, thực hiện lệnh clone kho lưu trữ:
+git clone https://github.com/xoai1405/doanse114_foodapp.git
 
 
-### Giảng viên hướng dẫn: Nguyễn Tấn Toàn
+**Bước 2: Tích hợp tệp cấu hình Firebase (google-services.json)
 
----
+Truy cập vào liên kết Google Drive của dự án để tải xuống tệp cấu hình: https://drive.google.com/drive/folders/1NQvvbnQXdD04SAu-Rkn7_3jP1_c7poAY?usp=drive_link.
 
-## 2. ĐẶT VẤN ĐỀ
-- Trong nhịp sống hiện đại, nhu cầu đặt đồ ăn trực tuyến ngày càng phổ biến. Nhằm mang lại sự tiện lợi, tiết kiệm thời gian và tối ưu hóa trải nghiệm ẩm thực cho người dùng, chúng tôi đã phát triển ứng dụng FoodApp.
-- Ứng dụng giúp người dùng dễ dàng tìm kiếm các món ăn ngon, xem chi tiết đánh giá, quản lý giỏ hàng và thực hiện thanh toán một cách nhanh chóng ngay trên thiết bị di động.
+Di chuyển/Sao chép tệp google-services.json vừa tải về vào đúng thư mục mẫu sau:
+DoAnSE114_FoodApp/FoodApp/
+Lưu ý quan trọng về Bảo mật:
 
----
+Tệp google-services.json chứa các thông tin cực kỳ nhạy cảm của dự án backend bao gồm: API Keys, Project ID, Client IDs, và Database URLs.
 
-## 3. TÍNH NĂNG CHÍNH CỦA ỨNG DỤNG
-*(Dưới đây là các tính năng cốt lõi được xây dựng trong hệ thống)*
+Nếu tệp này bị lộ công khai lên các kho lưu trữ công cộng (như GitHub Public), kẻ xấu có thể lợi dụng các thông số này để truy cập trái phép vào Database, gửi yêu cầu ảo làm cạn kiệt tài nguyên đám mây, đánh cắp dữ liệu người dùng, hoặc phát sinh chi phí dịch vụ Firebase ngoài ý muốn.
 
-### 🔑 Xác thực & Quản lý người dùng
-- Đăng nhập, Đăng ký tài khoản (Tích hợp xác thực).
-- Khôi phục mật khẩu khi quên.
-- Quản lý thông tin hồ sơ cá nhân (Profile).
+Do đó, tệp này luôn được thêm vào .gitignore để tránh bị commit lên GitHub. Thành viên trong nhóm hoặc hội đồng chấm bài bắt buộc phải tải tệp thủ công từ link Drive nội bộ bên trên và tự tích hợp vào thư mục mã nguồn trước khi biên dịch.
 
-### 🍔 Khám phá & Tìm kiếm món ăn
-- **Màn hình chính (Dashboard/Home):** Hiển thị các món ăn nổi bật (Best Foods), phân loại món ăn theo danh mục (Categories).
-- **Món ăn yêu thích:** Cho phép người dùng thả tim và lưu lại các món ăn yêu thích.
-- **Khuyến mãi (Deals):** Cập nhật các ưu đãi và combo giảm giá.
 
-### 🛒 Giỏ hàng & Thanh toán
-- Xem thông tin chi tiết từng món ăn (thành phần, giá cả, thời gian giao hàng).
-- Thêm món ăn vào giỏ hàng, tùy chỉnh số lượng.
-- Quản lý mã giảm giá (Voucher) áp dụng cho đơn hàng.
-- Màn hình Checkout xác nhận thông tin địa chỉ giao hàng và tổng tiền thanh toán.
+**Bước 3: Đồng bộ hóa dự án (Sync Gradle)
 
----
+Mở thư mục gốc của dự án bằng phần mềm Android Studio.
 
-## 4. GIAO DIỆN ỨNG DỤNG (SCREENSHOTS)
-Dưới đây là một số hình ảnh thực tế từ ứng dụng:
+Hệ thống sẽ tự động kích hoạt tiến trình tải thư viện, hoặc bạn có thể chủ động nhấn vào File > Sync Project with Gradle Files.
 
-### Màn hình chính và Danh mục món ăn
+Chờ đợi trong vài phút để Gradle kết nối Internet, tải xuống toàn bộ thư viện (Firebase, Glide, Fresco,...) và hoàn tất quá trình lập chỉ mục.
 
-<p align="center">
-  <img width="372" height="781" alt="Home Screen" src="https://github.com/user-attachments/assets/31f28ddb-036f-4c08-81f3-2ffd206e5b79" />
-</p>
 
----
 
-### Quản lý Giỏ hàng và Thanh toán
+**Bước 4: Khởi chạy ứng dụng
 
-<p align="center">
-  <img width="368" height="778" alt="Cart and Checkout" src="https://github.com/user-attachments/assets/03566d29-5f33-459d-9a30-149a079873a0" />
-</p>
+Chuẩn bị thiết bị: Kết nối một thiết bị di động Android thật (đã bật Developer Options và USB Debugging) hoặc khởi chạy một Máy ảo (Emulator) có cấu hình API từ 24 trở lên.
 
----
+Thực thi: Chọn module app trên thanh công cụ và nhấn nút Run (biểu tượng hình tam giác màu xanh) hoặc nhấn tổ hợp phím Shift + F10.
 
-### Quản lý Profile người dùng 
-
-<p align="center">
-  <img width="372" height="782" alt="Profile Screen" src="https://github.com/user-attachments/assets/f44528a8-ddeb-4bdb-bf15-b6823ec1bef8" />
-</p>
-
----
-
-### Quản lý món ăn yêu thích
-
-<p align="center">
-  <img width="366" height="775" alt="Favorite Screen" src="https://github.com/user-attachments/assets/e3708360-4a03-4538-87e4-6a1c6a43612e" />
-</p>
-
----
-
-## 5. KIẾN TRÚC & CÔNG NGHỆ SỬ DỤNG
-- **Nền tảng:** Android (Ngôn ngữ Java).
-- **Môi trường phát triển:** Android Studio.
-- **Cấu trúc UI:** Sử dụng `RecyclerView` kết hợp với các `Adapter` (CartAdapter, CategoryAdapter, FoodListAdapter...) để tối ưu hóa việc hiển thị danh sách.
-- **Lưu trữ dữ liệu:** - Sử dụng `TinyDB` để lưu trữ dữ liệu giỏ hàng cục bộ (Local Storage).
-  - Tích hợp đọc dữ liệu định dạng JSON.
-
----
+Ghi chú xử lý sự cố: Trong trường hợp Gradle báo lỗi không tìm thấy class từ ViewBinding hoặc lỗi cache cũ, hãy dọn dẹp bằng cách chọn Build > Clean Project, sau đó chọn Build > Rebuild Project.
+"""
